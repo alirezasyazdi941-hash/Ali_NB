@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="color-scheme" content="dark light">
+<title>ALI — Your Life, Connected</title>
+<style>
+:root{--bg:#03050A;--p1:#080D18;--p2:#0B1220;--bd:rgba(34,211,238,.28);--bd2:rgba(59,130,246,.35);--tx:#e6f1ff;--mut:#93a8c0;--cy:#22d3ee;--bl:#3b82f6;--vi:#a78bfa;--mg:#e879f9;--am:#fbbf24;--ok:#34d399;--err:#f87171;--glow:0 0 12px rgba(34,211,238,.18);--r:12px}
+:root[data-theme=light]{--bg:#f3f7fb;--p1:#ffffff;--p2:#eaf0f7;--bd:rgba(14,116,144,.35);--bd2:rgba(29,78,216,.35);--tx:#0b1626;--mut:#475a70;--cy:#0e7490;--bl:#1d4ed8;--vi:#6d28d9;--mg:#a21caf;--am:#b45309;--ok:#047857;--err:#b91c1c;--glow:none}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--tx);font-family:Vazirmatn,"Segoe UI",system-ui,-apple-system,Tahoma,sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0;line-height:1.3}
+a{color:var(--cy)}
+svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr) 300px;grid-template-rows:auto 1fr;min-height:100vh;gap:12px;padding:12px}
+header.top{grid-column:1/-1;display:flex;align-items:center;gap:12px;background:var(--p1);border:1px solid var(--bd);border-radius:var(--r);padding:8px 14px;box-shadow:var(--glow);position:relative}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo .mark{width:38px;height:38px;border-radius:10px;border:1px solid var(--cy);display:grid;place-items:center;color:var(--cy);font-weight:800;letter-spacing:.5px;box-shadow:var(--glow);flex:none}
+.logo b{display:block;font-size:17px;letter-spacing:1px}
+.logo small{display:block;color:var(--mut);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}
+.gsearch{flex:1;position:relative;min-width:0}
+.gsearch input{width:100%}
+.gresults{position:absolute;inset-inline:0;top:calc(100% + 6px);background:var(--p2);border:1px solid var(--bd);border-radius:var(--r);z-index:30;max-height:60vh;overflow:auto;padding:6px}
+.gresults h4{margin:6px 8px 2px;font-size:12px;color:var(--mut)}
+.gresults button{display:block;width:100%;text-align:start;background:none;border:0;padding:8px;border-radius:8px;cursor:pointer}
+.gresults button:hover,.gresults button:focus-visible{background:rgba(34,211,238,.12)}
+.hstat{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bd);border-radius:999px;padding:3px 10px;font-size:12px;background:var(--p2);cursor:default;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 6px currentColor}
+.dot.bad{background:var(--err)}.dot.off{background:var(--mut);box-shadow:none}
+nav.side{background:var(--p1);border:1px solid var(--bd);border-radius:var(--r);padding:8px;display:flex;flex-direction:column;gap:4px;align-self:start;position:sticky;top:12px}
+nav.side button{display:flex;align-items:center;gap:10px;background:none;border:1px solid transparent;border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--mut);text-align:start;min-height:44px}
+nav.side button:hover{color:var(--tx);border-color:var(--bd)}
+nav.side button[aria-current=page]{color:var(--cy);border-color:var(--cy);background:rgba(34,211,238,.08);box-shadow:var(--glow)}
+main{min-width:0;display:flex;flex-direction:column;gap:12px}
+aside.right{display:flex;flex-direction:column;gap:12px;min-width:0;align-self:start}
+.panel{background:var(--p1);border:1px solid var(--bd);border-radius:var(--r);padding:14px;min-width:0}
+.panel.alt{background:var(--p2);border-color:var(--bd2)}
+.panel h2{font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.panel h3{font-size:14px;margin-bottom:8px;color:var(--cy)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grow{flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--p2);border:1px solid var(--bd);border-radius:10px;padding:8px 14px;cursor:pointer;min-height:40px;color:var(--tx)}
+.btn:hover{border-color:var(--cy)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.icon-btn:focus-visible,nav.side button:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+.btn.pri{background:linear-gradient(0deg,rgba(34,211,238,.18),rgba(59,130,246,.18));border-color:var(--cy);color:var(--tx)}
+.btn.dan{border-color:var(--err);color:var(--err)}
+.btn.sm{min-height:34px;padding:4px 10px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.icon-btn{background:none;border:1px solid transparent;border-radius:8px;min-width:38px;min-height:38px;display:inline-grid;place-items:center;cursor:pointer;color:var(--mut)}
+.icon-btn:hover{color:var(--cy);border-color:var(--bd)}
+.icon-btn.on{color:var(--am)}.icon-btn.on svg{fill:var(--am)}
+input,select,textarea{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;min-height:42px;width:100%}
+:root[data-theme=light] input,:root[data-theme=light] select,:root[data-theme=light] textarea{background:#fff}
+textarea{min-height:110px;resize:vertical}
+input[type=checkbox],input[type=radio]{width:20px;height:20px;min-height:0;accent-color:var(--cy)}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.field label{font-size:13px;color:var(--mut)}
+.field.inline{flex-direction:row;align-items:center;gap:8px}
+.field.inline label{color:var(--tx)}
+.hint{color:var(--mut);font-size:12.5px}
+.grid{display:grid;gap:10px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tile{display:flex;align-items:center;gap:10px;background:var(--p2);border:1px solid var(--bd);border-radius:var(--r);padding:12px;cursor:pointer;text-align:start;min-height:56px}
+.tile:hover{border-color:var(--cy);box-shadow:var(--glow)}
+.tile .ic{width:24px;height:24px}
+.c-cy{color:var(--cy)}.c-bl{color:var(--bl)}.c-vi{color:var(--vi)}.c-mg{color:var(--mg)}.c-am{color:var(--am)}.c-ok{color:var(--ok)}
+.stat{background:var(--p2);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px}
+.stat b{font-size:22px;display:block}.stat span{color:var(--mut);font-size:12.5px}
+.item{background:var(--p2);border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.item.done .ttl{text-decoration:line-through;color:var(--mut)}
+.item .ttl{font-weight:600;overflow-wrap:anywhere}
+.item p{margin:0;color:var(--mut);overflow-wrap:anywhere}
+.list{display:flex;flex-direction:column;gap:8px}
+.badge{display:inline-block;border:1px solid var(--bd);border-radius:6px;padding:0 8px;font-size:12px;color:var(--mut)}
+.badge.hi{border-color:var(--err);color:var(--err)}.badge.me{border-color:var(--am);color:var(--am)}.badge.lo{border-color:var(--ok);color:var(--ok)}
+.badge.v{border-color:var(--ok);color:var(--ok)}.badge.u{border-color:var(--am);color:var(--am)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}.tags span{font-size:12px;color:var(--vi)}
+.toolbar{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:8px;margin-bottom:10px}
+.empty{text-align:center;color:var(--mut);padding:26px 10px;border:1px dashed var(--bd);border-radius:var(--r)}
+.banner{border:1px solid var(--err);color:var(--err);border-radius:var(--r);padding:10px 14px;background:rgba(248,113,113,.08)}
+.banner.info{border-color:var(--am);color:var(--am);background:rgba(251,191,36,.07)}
+#toasts{position:fixed;inset-inline:0;bottom:16px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:100;pointer-events:none;padding:0 12px}
+.toast{pointer-events:auto;background:var(--p2);border:1px solid var(--ok);border-radius:10px;padding:10px 16px;max-width:520px;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.toast.err{border-color:var(--err)}.toast.info{border-color:var(--cy)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:90;padding:12px}
+.modal{background:var(--p1);border:1px solid var(--cy);border-radius:var(--r);width:min(680px,100%);max-height:92vh;display:flex;flex-direction:column;box-shadow:var(--glow)}
+.mhead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
+.mhead h2{font-size:17px}
+.mbody{padding:14px;overflow:auto}
+.mfoot{padding:12px 14px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.prose p{margin:0 0 10px;overflow-wrap:anywhere}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow:auto;padding:4px}
+.msg{border-radius:var(--r);padding:10px 12px;max-width:92%;overflow-wrap:anywhere}
+.msg.u{align-self:flex-end;background:rgba(59,130,246,.16);border:1px solid var(--bd2)}
+.msg.a{align-self:flex-start;background:var(--p2);border:1px solid var(--bd)}
+.cal{width:100%;border-collapse:collapse;text-align:center;table-layout:fixed}
+.cal th{font-size:11px;color:var(--mut);font-weight:500;padding:2px 0}
+.cal td button{width:100%;min-height:34px;background:none;border:1px solid transparent;border-radius:8px;cursor:pointer;position:relative}
+.cal td button:hover{border-color:var(--bd)}
+.cal td button.today{border-color:var(--cy);color:var(--cy)}
+.cal td button.has::after{content:"";position:absolute;bottom:3px;inset-inline-start:50%;width:5px;height:5px;margin-inline-start:-2.5px;border-radius:50%;background:var(--mg)}
+.cal td button.out{color:var(--mut);opacity:.5}
+.fc{min-height:150px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;font-size:18px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:1100px){.app{grid-template-columns:200px minmax(0,1fr)}aside.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
+@media (max-width:800px){
+ .app{grid-template-columns:minmax(0,1fr);padding:8px;gap:8px;padding-bottom:84px}
+ nav.side{position:fixed;inset-inline:0;bottom:0;top:auto;flex-direction:row;overflow-x:auto;border-radius:0;border-width:1px 0 0;z-index:40;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px}
+ nav.side button{flex-direction:column;gap:2px;padding:6px 8px;font-size:11px;min-width:64px;flex:none;min-height:50px;text-align:center}
+ .logo small,.hstat .opt{display:none}
+ .toolbar{grid-template-columns:1fr 1fr}.toolbar .full{grid-column:1/-1}
+ .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ header.top{flex-wrap:wrap}.gsearch{order:5;flex-basis:100%}
+ .hstat{margin-inline-start:auto}
+}
+@media (max-width:420px){.g2{grid-template-columns:minmax(0,1fr)}.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toasts" aria-live="polite"></div>
+<noscript><div style="padding:20px">ALI requires JavaScript. / علی به جاوااسکریپت نیاز دارد.</div></noscript>
+<script>
+'use strict';
+/* ==========================================================================
+   ALI — Your Life, Connected   (single-file, local-first)
+   Modules: DB, SearchEngine, KnowledgeBase, Tasks, Notes, ImportExport,
+            Settings, LocalAssistant, UI
+   No network access is performed anywhere in this file (CSP also blocks it).
+   ========================================================================== */
+var APP_VERSION='1.0.0', SEED_VERSION=1, SCHEMA_VERSION=1, MAX_IMPORT=5*1024*1024, MAX_FILE=10*1024*1024;
+
+/* ---------- Categories ---------- */
+var CATS=[
+ {id:'everyday',fa:'زندگی روزمره',en:'Everyday Life'},
+ {id:'time',fa:'مدیریت زمان',en:'Time Management'},
+ {id:'learning',fa:'یادگیری و آموزش',en:'Learning and Education'},
+ {id:'tech',fa:'فناوری و برنامه‌نویسی',en:'Technology and Programming'},
+ {id:'problem',fa:'حل مسئله',en:'Problem Solving'},
+ {id:'health',fa:'سلامت عمومی و عادت‌های سبک زندگی',en:'General Health and Lifestyle Habits'},
+ {id:'family',fa:'خانواده و همکاری',en:'Family and Collaboration'},
+ {id:'security',fa:'امنیت دیجیتال',en:'Digital Security'},
+ {id:'resources',fa:'منابع و راهنماها',en:'Resources and Guides'},
+ {id:'personal',fa:'دانش شخصی',en:'Personal Knowledge'}
+];
+
+/* ---------- Seed knowledge (30 topics x 2 languages = 60 records) ---------- */
+/* [category, tagsEn, tagsFa, titleEn, contentEn, titleFa, contentFa] */
+var SEED=[
+['time','tasks,capture,priority,planning','کار,اولویت,فهرست,برنامه‌ریزی','Capture and prioritize tasks','Write every task into one trusted list the moment it appears so your mind does not have to hold it. Once a day, mark each item as urgent and/or important, then choose at most three priorities for the day. Everything else waits on the list without guilt.','ثبت و اولویت‌بندی کارها','هر کار را همان لحظه که به ذهنتان می‌رسد در یک فهرست مطمئن بنویسید تا ذهن شما درگیر یادآوری نشود. روزی یک بار هر مورد را از نظر فوری بودن و اهمیت علامت بزنید و حداکثر سه اولویت برای آن روز انتخاب کنید. بقیه موارد بدون نگرانی در فهرست منتظر می‌مانند.'],
+['problem','projects,steps,breakdown,planning','پروژه,گام,تقسیم,برنامه‌ریزی','Break big projects into small steps','State the final result in one sentence. List the major parts, then split each part until every step can be done in under an hour and starts with a verb. Put the first step on today\'s task list so starting is easy.','تقسیم پروژه‌های بزرگ به گام‌های کوچک','نتیجه نهایی را در یک جمله بنویسید. بخش‌های اصلی را فهرست کنید و هر بخش را آن‌قدر بشکنید که هر گام کمتر از یک ساعت طول بکشد و با یک فعل شروع شود. اولین گام را همین امروز در فهرست کارها بگذارید تا شروع کردن آسان شود.'],
+['time','weekly,planning,schedule,week','هفتگی,برنامه‌ریزی,هفته,زمان‌بندی','Plan your week','Pick a fixed time, such as Sunday evening or Saturday morning. Review last week, list the three outcomes that matter most, and place them on specific days. Leave open space for surprises.','برنامه‌ریزی هفتگی','یک زمان ثابت مثل شنبه صبح انتخاب کنید. هفته گذشته را مرور کنید، سه نتیجه مهم این هفته را بنویسید و آن‌ها را روی روزهای مشخص بگذارید. برای اتفاقات پیش‌بینی‌نشده فضای خالی نگه دارید.'],
+['learning','notes,note-taking,summary,study','یادداشت,یادداشت‌برداری,خلاصه,مطالعه','Effective note-taking','Write notes in your own words instead of copying. Give each note a clear title, date and source, and finish with a one-line summary or a question to answer later. Review notes within 24 hours to make them stick.','یادداشت‌برداری مؤثر','یادداشت‌ها را با کلمات خودتان بنویسید، نه کپی. برای هر یادداشت عنوان روشن، تاریخ و منبع بگذارید و آن را با یک جمله خلاصه یا یک پرسش برای بعد تمام کنید. یادداشت‌ها را ظرف ۲۴ ساعت مرور کنید تا در ذهن بمانند.'],
+['learning','learning,plan,goals,practice','یادگیری,برنامه,هدف,تمرین','Build a learning plan','Define what you want to be able to do, not just what to read. Break the topic into units, give each unit a deadline, and choose practice activities such as exercises or teaching someone else. Check progress every week and adjust.','ساخت برنامه یادگیری','مشخص کنید در پایان چه کاری باید بتوانید انجام دهید، نه فقط چه چیزی را بخوانید. موضوع را به بخش‌ها تقسیم کنید، برای هر بخش مهلت بگذارید و تمرین عملی یا آموزش دادن به دیگران را در برنامه بگنجانید. هر هفته پیشرفت را بسنجید و برنامه را اصلاح کنید.'],
+['learning','spaced repetition,flashcards,memory,review','تکرار فاصله‌دار,فلش‌کارت,حافظه,مرور','Spaced repetition','Review material just before you would forget it, using increasing gaps such as 1 day, 3 days, 1 week and 1 month. Use flashcards with a question on the front and a short answer on the back. The Learning section of ALI has a simple flashcard system that schedules reviews with increasing gaps.','تکرار فاصله‌دار','مطالب را درست قبل از فراموش شدن مرور کنید؛ با فاصله‌های رو به افزایش مثل یک روز، سه روز، یک هفته و یک ماه. از فلش‌کارت با پرسش در یک طرف و پاسخ کوتاه در طرف دیگر استفاده کنید. بخش یادگیری علی یک سیستم ساده فلش‌کارت با زمان‌بندی مرورها دارد.'],
+['everyday','documents,organize,folders,paperwork','اسناد,سازماندهی,پوشه,مدارک','Organize personal documents','Create a few top-level folders such as Identity, Home, Work, Education and Receipts. Name files with the date first (2026-10-29_electric-bill) so they sort naturally. Review once a quarter and remove duplicates.','سازماندهی اسناد شخصی','چند پوشه اصلی مثل هویتی، منزل، کار، تحصیل و رسیدها بسازید. نام فایل‌ها را با تاریخ شروع کنید (مثلاً 2026-10-29_قبض-برق) تا خودبه‌خود مرتب شوند. هر فصل یک بار مرور کنید و موارد تکراری را حذف کنید.'],
+['security','password,passphrase,2fa,accounts','گذرواژه,رمز عبور,تأیید دومرحله‌ای,حساب','Create strong passwords','Prefer long passphrases of four or more unrelated words over short complex ones. Use a different password for every important account and keep them in a reputable password manager. Turn on two-step verification where available.','ساخت گذرواژه قوی','گذرواژه‌های بلند شامل چهار کلمه نامرتبط یا بیشتر را به گذرواژه‌های کوتاه و پیچیده ترجیح دهید. برای هر حساب مهم گذرواژه جداگانه بگذارید و آن‌ها را در یک مدیر گذرواژه معتبر نگه دارید. در صورت امکان تأیید دومرحله‌ای را فعال کنید.'],
+['security','phishing,links,scam,suspicious','فیشینگ,لینک,کلاهبرداری,مشکوک','Recognize suspicious links','Be careful with unexpected messages that create urgency or ask for codes and passwords. Check the real domain before clicking, watch for look-alike spellings, and open official sites by typing the address yourself. When in doubt, contact the sender through another channel.','تشخیص پیوندهای مشکوک','به پیام‌های غیرمنتظره‌ای که عجله ایجاد می‌کنند یا کد و گذرواژه می‌خواهند مشکوک باشید. پیش از کلیک نشانی واقعی را بررسی کنید، به املاهای شبیه‌سازی‌شده دقت کنید و سایت‌های رسمی را با تایپ نشانی باز کنید. در صورت تردید از راه دیگری با فرستنده تماس بگیرید.'],
+['security','backup,restore,copies,data','پشتیبان,بازیابی,نسخه,داده','Create backups','Follow the 3-2-1 idea: three copies of important data, on two different kinds of storage, with one copy kept elsewhere. Back up on a schedule and occasionally test restoring a file. ALI can export a JSON backup from Settings.','تهیه نسخه پشتیبان','قاعده ۳-۲-۱: سه نسخه از داده‌های مهم، روی دو نوع حافظه متفاوت و یک نسخه در مکانی دیگر. طبق برنامه پشتیبان بگیرید و گاهی بازیابی یک فایل را آزمایش کنید. علی می‌تواند از بخش تنظیمات یک پشتیبان JSON صادر کند.'],
+['everyday','expenses,budget,tracking,money','هزینه,بودجه,پیگیری,پول','Track personal expenses','Record each expense with date, amount and category for one month before changing any habits. Compare totals by category to see where money actually goes. This is a general method, not financial advice.','ثبت هزینه‌های شخصی','یک ماه کامل هر هزینه را با تاریخ، مبلغ و دسته ثبت کنید و قبل از آن عادتی را تغییر ندهید. مجموع هر دسته را مقایسه کنید تا ببینید پول واقعاً کجا می‌رود. این یک روش کلی است و توصیه مالی نیست.'],
+['time','meetings,appointments,agenda,schedule','جلسه,قرار,دستور جلسه,زمان‌بندی','Plan meetings and appointments','Decide the purpose and the decision needed before scheduling. Share time, place or link, and a short agenda in advance, and invite only people who are needed. Afterwards, write down decisions and who does what by when.','برنامه‌ریزی جلسات و قرارها','پیش از تعیین زمان، هدف و تصمیم مورد نیاز را مشخص کنید. زمان، مکان یا لینک و یک دستور جلسه کوتاه را از قبل بفرستید و فقط افراد لازم را دعوت کنید. پس از جلسه تصمیم‌ها و مسئول و مهلت هر کار را بنویسید.'],
+['resources','reliable information,research,sources,search','اطلاعات قابل اعتماد,پژوهش,منبع,جستجو','Find reliable information','Start with primary or official sources such as government sites, universities, standards bodies and original studies. Cross-check important claims with at least two independent sources. Note the date, since information can become outdated.','یافتن اطلاعات قابل اعتماد','از منابع اصلی یا رسمی مثل سایت‌های دولتی، دانشگاه‌ها، مراجع استاندارد و پژوهش‌های اصلی شروع کنید. ادعاهای مهم را با دست‌کم دو منبع مستقل تطبیق دهید. تاریخ منبع را یادداشت کنید چون اطلاعات کهنه می‌شود.'],
+['resources','credibility,sources,evaluation,fact-check','اعتبار,منبع,ارزیابی,راستی‌آزمایی','Evaluate source credibility','Ask who wrote it, what evidence they give, whether they have a motive to persuade or sell, and when it was published. Be careful with emotional headlines and missing references. Mark records in ALI as verified only after you actually checked the source.','ارزیابی اعتبار منابع','بپرسید چه کسی نوشته، چه شواهدی ارائه کرده، آیا انگیزه‌ای برای متقاعد کردن یا فروش دارد و چه زمانی منتشر شده است. به تیترهای احساسی و نبود ارجاع مشکوک باشید. فقط وقتی منبع را واقعاً بررسی کرده‌اید رکورد را در علی «تأییدشده» علامت بزنید.'],
+['problem','problem solving,troubleshooting,causes,method','حل مسئله,عیب‌یابی,علت,روش','Solve problems systematically','Describe the problem precisely, then gather facts about when it happens. List possible causes, test the cheapest or most likely one first, and change one thing at a time. Write down what worked.','حل مسئله به شکل نظام‌مند','مسئله را دقیق توصیف کنید و واقعیت‌ها را درباره زمان رخ دادنش جمع کنید. علت‌های ممکن را فهرست کنید، اول ارزان‌ترین یا محتمل‌ترین را آزمایش کنید و هر بار فقط یک چیز را تغییر دهید. آنچه جواب داد را یادداشت کنید.'],
+['family','communication,listening,clarity,conversation','ارتباط,گوش دادن,شفافیت,گفتگو','Communicate effectively','Say the main point first, then give the reason and what you need. Listen fully, then restate what you understood before replying. Put important agreements in writing.','ارتباط مؤثر','ابتدا نکته اصلی، سپس دلیل و خواسته‌تان را بگویید. کامل گوش دهید و قبل از پاسخ، برداشت خود را بازگو کنید. توافق‌های مهم را مکتوب کنید.'],
+['family','group project,teamwork,collaboration,roles','پروژه گروهی,کار تیمی,همکاری,نقش','Collaborate on group projects','Agree on the goal, roles and deadlines in the first meeting. Keep one shared task list and one place for files. Check in briefly at fixed times and raise blockers early.','همکاری در پروژه‌های گروهی','در جلسه اول درباره هدف، نقش‌ها و مهلت‌ها توافق کنید. یک فهرست کار مشترک و یک مکان واحد برای فایل‌ها داشته باشید. در زمان‌های ثابت کوتاه هماهنگ کنید و مشکلات را زود مطرح کنید.'],
+['personal','goals,measurable,deadline,progress','هدف,قابل اندازه‌گیری,مهلت,پیشرفت','Set measurable goals','Turn a vague wish into a goal with a number, a deadline and a first action, for example "finish 3 chapters by Friday". Keep goals few. Track progress weekly and adjust if the goal is unrealistic.','تعیین اهداف قابل اندازه‌گیری','آرزوی مبهم را به هدفی با عدد، مهلت و اولین اقدام تبدیل کنید، مثلاً «تا جمعه سه فصل را تمام کنم». تعداد اهداف را کم نگه دارید. پیشرفت را هفتگی بسنجید و اگر هدف غیرواقعی بود اصلاحش کنید.'],
+['time','distractions,focus,notifications,concentration','حواس‌پرتی,تمرکز,اعلان,تمرکز کار','Manage distractions','Silence notifications during focused work and keep your phone out of reach. Work in blocks of 25 to 50 minutes with short breaks. Keep a "later" list for stray thoughts so you can drop them without losing them.','مدیریت حواس‌پرتی','هنگام کار متمرکز اعلان‌ها را خاموش کنید و تلفن را دور از دست بگذارید. در بازه‌های ۲۵ تا ۵۰ دقیقه‌ای با استراحت کوتاه کار کنید. برای افکار پراکنده فهرست «بعداً» داشته باشید تا بدون فراموشی رهایشان کنید.'],
+['health','habits,routine,consistency,lifestyle','عادت,روال,پیوستگی,سبک زندگی','Build small habits','Start with a version so small it feels almost too easy, such as two minutes. Attach it to something you already do each day and track it with a simple checkmark. Increase gradually once it feels automatic. This is general lifestyle information, not medical advice.','ساخت عادت‌های کوچک','با نسخه‌ای شروع کنید که آن‌قدر کوچک باشد که تقریباً زیادی آسان به نظر برسد، مثلاً دو دقیقه. آن را به کاری که هر روز انجام می‌دهید وصل کنید و با یک تیک ساده پیگیری کنید. وقتی خودکار شد کم‌کم افزایش دهید. این اطلاعات عمومی سبک زندگی است و توصیه پزشکی نیست.'],
+['tech','project records,documentation,status,handoff','سوابق پروژه,مستندسازی,وضعیت,تحویل','Maintain project records','Keep one folder or note per project with its goal, current status, decisions, links and next steps. Update it at the end of each work session. Future you, or a teammate, can then continue without guessing.','نگهداری سوابق پروژه','برای هر پروژه یک پوشه یا یادداشت با هدف، وضعیت فعلی، تصمیم‌ها، پیوندها و گام‌های بعدی نگه دارید. آن را در پایان هر جلسه کاری به‌روز کنید. به این ترتیب خودِ آینده یا هم‌تیمی شما بدون حدس زدن ادامه می‌دهد.'],
+['security','privacy,permissions,personal data,encryption','حریم خصوصی,مجوز,اطلاعات شخصی,رمزگذاری','Basic digital privacy','Review app permissions and remove those that are not needed. Share only the minimum personal data a service requires, and keep devices updated with a screen lock. Remember that data stored in a browser is not automatically encrypted.','حریم خصوصی دیجیتال: اصول اولیه','مجوزهای برنامه‌ها را مرور کنید و موارد غیرضروری را بردارید. فقط حداقل اطلاعات شخصی لازم را به سرویس‌ها بدهید و دستگاه‌ها را به‌روز و با قفل صفحه نگه دارید. به یاد داشته باشید داده‌های ذخیره‌شده در مرورگر به‌طور خودکار رمزگذاری نمی‌شوند.'],
+['learning','academic notes,courses,summary,exam','یادداشت درسی,درس,خلاصه,امتحان','Organize academic notes','Group notes by course, then by week or chapter. Use consistent headings, mark key terms and questions, and link each note to its source. Before exams, condense each chapter into a one-page summary.','سازماندهی یادداشت‌های درسی','یادداشت‌ها را ابتدا بر اساس درس و سپس هفته یا فصل دسته‌بندی کنید. از عنوان‌های یکسان استفاده کنید، اصطلاحات کلیدی و پرسش‌ها را علامت بزنید و هر یادداشت را به منبعش ارجاع دهید. پیش از امتحان هر فصل را در یک صفحه خلاصه کنید.'],
+['everyday','files,inbox,naming,cleanup','فایل,ورودی,نام‌گذاری,پاکسازی','Manage personal files','Keep one inbox folder for new files and sort it weekly. Use a clear structure and consistent names, and delete duplicates and temporary files. Keep important originals in at least two places.','مدیریت فایل‌های شخصی','یک پوشه ورودی برای فایل‌های جدید داشته باشید و هفتگی آن را مرتب کنید. ساختار روشن و نام‌گذاری یکسان داشته باشید و فایل‌های تکراری و موقت را حذف کنید. نسخه اصلی فایل‌های مهم را دست‌کم در دو مکان نگه دارید.'],
+['problem','checklist,routine,mistakes,process','چک‌لیست,روال,اشتباه,فرایند','Create checklists','Use a checklist for any routine that is easy to get wrong, such as travel packing or publishing a page. Keep items short and in order, and improve the list every time a mistake happens.','ساخت چک‌لیست','برای هر روال مستعد اشتباه مثل بستن بار سفر یا انتشار یک صفحه چک‌لیست بسازید. موارد را کوتاه و به ترتیب بنویسید و هر بار که اشتباهی رخ داد فهرست را بهتر کنید.'],
+['personal','decisions,documentation,reasoning,log','تصمیم,مستندسازی,استدلال,گزارش','Document decisions','Write down the decision, the date, the options considered, the reasons, and what would make you reconsider. This avoids re-arguing old choices and helps you learn from outcomes.','مستندسازی تصمیم‌ها','تصمیم، تاریخ، گزینه‌های بررسی‌شده، دلایل و شرایطی که باعث بازنگری می‌شود را بنویسید. این کار از بحث دوباره درباره انتخاب‌های قدیمی جلوگیری می‌کند و به یادگیری از نتایج کمک می‌کند.'],
+['learning','study session,focus,active recall,planning','جلسه مطالعه,تمرکز,یادآوری فعال,برنامه‌ریزی','Plan study sessions','Schedule short, focused sessions with a single clear goal, such as "solve 10 problems". Start with active recall instead of rereading, and finish by writing what to do next time. Take breaks between sessions.','برنامه‌ریزی جلسات مطالعه','جلسات کوتاه و متمرکز با یک هدف روشن مثل «حل ۱۰ مسئله» برنامه‌ریزی کنید. به جای بازخوانی با یادآوری فعال شروع کنید و در پایان بنویسید دفعه بعد چه کاری باید انجام شود. بین جلسات استراحت کنید.'],
+['problem','compare options,decision,criteria,scoring','مقایسه گزینه‌ها,تصمیم‌گیری,معیار,امتیازدهی','Compare options for a decision','List the options and the criteria that matter, such as cost, time and risk. Weight each criterion, score each option, and see which leads. Treat the result as an aid to your judgment, not a verdict.','مقایسه گزینه‌ها برای تصمیم‌گیری','گزینه‌ها و معیارهای مهم مثل هزینه، زمان و ریسک را فهرست کنید. به هر معیار وزن بدهید، هر گزینه را امتیاز بدهید و ببینید کدام جلوتر است. نتیجه را کمکی برای قضاوت خود بدانید، نه حکم نهایی.'],
+['health','daily routine,schedule,rhythm,habits','روال روزانه,برنامه روزانه,ریتم,عادت','Establish a daily routine','Anchor the day with a few fixed points such as wake time, main work block and shutdown time. Group similar tasks together and leave buffers. After a week, adjust the routine based on what actually happened.','ایجاد روال روزانه','روز را با چند نقطه ثابت مثل زمان بیدار شدن، بلوک اصلی کار و زمان پایان کار تثبیت کنید. کارهای مشابه را کنار هم بگذارید و فاصله اطمینان نگه دارید. پس از یک هفته بر اساس آنچه واقعاً رخ داد روال را اصلاح کنید.'],
+['personal','weekly review,progress,reflection,retrospective','مرور هفتگی,پیشرفت,بازتاب,بازبینی','Review weekly progress','Once a week, check what you completed, what slipped and why, and what you learned. Clear your task list of stale items and choose next week\'s top three outcomes. Keep the review under 20 minutes.','مرور پیشرفت هفتگی','هفته‌ای یک بار بررسی کنید چه کارهایی انجام شد، چه چیزی عقب افتاد و چرا و چه آموخته‌اید. موارد کهنه فهرست را پاک کنید و سه نتیجه مهم هفته بعد را انتخاب کنید. مرور را زیر ۲۰ دقیقه نگه دارید.']
+];
+function pad3(n){return String(n).padStart(3,'0');}
+function buildSeed(){
+  var out=[],ts='2026-10-29T00:00:00.000Z';
+  SEED.forEach(function(s,i){
+    ['en','fa'].forEach(function(lg){
+      var en=lg==='en';
+      out.push({id:'seed-'+pad3(i+1)+'-'+lg,title:en?s[3]:s[5],content:en?s[4]:s[6],category:s[0],
+        tags:(en?s[1]:s[2]).split(',').map(function(x){return x.trim();}).filter(Boolean),
+        source:en?'ALI built-in practical guide (written for ALI; no external source verified)':'راهنمای عملی داخلی علی (برای علی نوشته شده؛ منبع بیرونی تأیید نشده)',
+        sourceUrl:'',createdAt:ts,updatedAt:ts,language:lg,favorite:false,verified:false,version:SCHEMA_VERSION});
+    });
+  });
+  return out;
+}
+
+/* ---------- Translations: key:[fa,en] ---------- */
+var T={
+appName:['علی','ALI'],tagline:['زندگی شما، متصل','Your Life, Connected'],
+desc:['همراه شخصی همه‌کاره — محلی و آفلاین','Universal personal companion — local & offline'],
+home:['خانه','Home'],assistant:['دستیار هوشمند','AI Assistant'],kb:['پایگاه دانش من','My Knowledge Base'],tasks:['کارها و برنامه‌ریزی','Tasks and Planning'],notes:['یادداشت‌ها','Notes'],files:['فایل‌ها','Files'],learning:['یادگیری','Learning'],circle:['حلقه من','Circle'],settings:['تنظیمات','Settings'],
+navShort_assistant:['دستیار','Assistant'],navShort_kb:['دانش','Knowledge'],navShort_tasks:['کارها','Tasks'],
+search:['جستجو…','Search…'],searchGlobal:['جستجو در دانش، یادداشت‌ها و کارها…','Search knowledge, notes and tasks…'],
+storageOk:['ذخیره‌سازی محلی: IndexedDB فعال','Local storage: IndexedDB active'],storageBad:['ذخیره نمی‌شود! فقط حافظه موقت','NOT SAVED — temporary memory only'],
+extOff:['هوش مصنوعی خارجی: غیرفعال','External AI: disabled'],extOffLong:['غیرفعال — هیچ سرور امنی پیکربندی نشده است','Disabled — no secure backend is configured'],
+localProfile:['پروفایل محلی','Local profile'],
+welcome:['سلام','Hello'],welcomeSub:['امروز چه کاری انجام دهیم؟','What shall we do today?'],
+quickPlaceholder:['یک پرسش، یادداشت یا کار بنویسید…','Type a question, note or task…'],qQuestion:['پرسش','Question'],qNote:['یادداشت','Note'],qTask:['کار','Task'],go:['ثبت','Submit'],
+shortcuts:['میانبرها','Shortcuts'],recent:['فعالیت‌های اخیر','Recent activity'],overview:['مرور امروز','Daily overview'],
+kbSearch:['جستجو در پایگاه دانش','Search the knowledge base'],
+statToday:['کارهای امروز','Due today'],statOverdue:['عقب‌افتاده','Overdue'],statCards:['کارت‌های مرور','Cards to review'],statKb:['رکوردهای دانش','Knowledge records'],
+calendar:['تقویم','Calendar'],todayTasks:['کارهای امروز','Today\'s tasks'],recentNotes:['یادداشت‌های اخیر','Recent notes'],storageStatus:['وضعیت ذخیره‌سازی','Storage status'],extStatus:['وضعیت سرویس خارجی','External service status'],
+none:['موردی نیست','Nothing here'],
+add:['افزودن','Add'],edit:['ویرایش','Edit'],del:['حذف','Delete'],save:['ذخیره','Save'],cancel:['انصراف','Cancel'],close:['بستن','Close'],open:['باز کردن','Open'],confirm:['تأیید','Confirm'],
+fav:['علاقه‌مندی','Favorite'],favOnly:['فقط علاقه‌مندی‌ها','Favorites only'],
+allCats:['همه دسته‌ها','All categories'],allLangs:['همه زبان‌ها','All languages'],langFa:['فارسی','Persian'],langEn:['انگلیسی','English'],
+sortUpdated:['جدیدترین ویرایش','Recently updated'],sortCreated:['تاریخ ایجاد','Created date'],sortTitle:['عنوان','Title'],sortFav:['علاقه‌مندی‌ها اول','Favorites first'],
+count:['رکورد','records'],of:['از','of'],
+newRecord:['رکورد جدید','New record'],editRecord:['ویرایش رکورد','Edit record'],
+fTitle:['عنوان','Title'],fContent:['محتوا','Content'],fCategory:['دسته','Category'],fTags:['برچسب‌ها (با کاما جدا کنید)','Tags (comma separated)'],fLang:['زبان محتوا','Content language'],fSource:['منبع','Source'],fSourceUrl:['نشانی منبع (اختیاری)','Source URL (optional)'],fVerified:['منبع را واقعاً بررسی کرده‌ام','I have actually verified this source'],
+verified:['تأییدشده','Verified'],unverified:['تأییدنشده','Unverified'],
+created:['ایجاد','Created'],updated:['ویرایش','Updated'],source:['منبع','Source'],
+delRecordQ:['این رکورد برای همیشه حذف شود؟','Delete this record permanently?'],delTaskQ:['این کار حذف شود؟','Delete this task?'],delNoteQ:['این یادداشت حذف شود؟','Delete this note?'],delFileQ:['این فایل حذف شود؟','Delete this file?'],delCardQ:['این کارت حذف شود؟','Delete this card?'],delMemberQ:['این عضو حذف شود؟','Remove this member?'],
+saved:['ذخیره شد.','Saved.'],deleted:['حذف شد.','Deleted.'],
+saveFail:['ذخیره‌سازی ناموفق بود','Saving failed'],
+saveFailHelp:['داده ذخیره نشد. می‌توانید از تنظیمات یک پشتیبان JSON بگیرید، فضای مرورگر را بررسی کنید یا از پنجره غیرخصوصی استفاده کنید.','Data was NOT saved. Export a JSON backup from Settings, check browser storage space, or avoid private-browsing windows.'],
+errTitle:['عنوان لازم است.','A title is required.'],errContent:['محتوا لازم است.','Content is required.'],errUrl:['نشانی باید با http:// یا https:// شروع شود.','URL must start with http:// or https://.'],errTooLong:['متن بیش از حد طولانی است.','Text is too long.'],errDate:['تاریخ نامعتبر است.','Invalid date.'],
+import_:['درون‌ریزی JSON','Import JSON'],export_:['برون‌بری JSON','Export JSON'],
+errBigFile:['فایل بزرگ‌تر از حد مجاز (۵ مگابایت) است.','File exceeds the 5 MB limit.'],errJson:['فایل JSON معتبر نیست.','The file is not valid JSON.'],errStruct:['ساختار فایل با قالب پایگاه دانش علی سازگار نیست.','File structure is not a valid ALI knowledge format.'],errRecord:['رکورد نامعتبر','Invalid record'],errDup:['شناسه تکراری در فایل','Duplicate id in file'],errEmptyImport:['فایل هیچ رکوردی ندارد یا بیش از ۵۰۰۰ رکورد دارد.','The file has no records or more than 5000 records.'],errRead:['خواندن فایل ممکن نشد.','Could not read the file.'],
+importTitle:['درون‌ریزی پایگاه دانش','Import knowledge base'],importAsk:['فایل معتبر است. رکوردهای فایل:','File is valid. Records in file:'],importNew:['جدید:','new:'],importExisting:['با شناسه موجود:','with existing id:'],
+merge:['ادغام (فقط افزودن جدیدها)','Merge (add new only)'],replace:['جایگزینی همه','Replace all'],
+mergeHelp:['ادغام: رکوردهای موجود دست‌نخورده می‌مانند.','Merge keeps existing records untouched.'],replaceHelp:['جایگزینی: همه رکوردهای فعلی پاک می‌شوند. پیش از آن پشتیبان بگیرید.','Replace deletes ALL current records. Export a backup first.'],
+importedMerge:['ادغام انجام شد. افزوده:','Merged. Added:'],skipped:['ردشده:','skipped:'],importedReplace:['جایگزینی انجام شد. رکوردها:','Replaced. Records:'],
+exported:['فایل برون‌بری آماده شد.','Export file created.'],
+tasksH:['کارها','Tasks'],newTask:['کار جدید','New task'],editTask:['ویرایش کار','Edit task'],
+tDesc:['توضیحات','Description'],tPriority:['اولویت','Priority'],tDue:['موعد','Due date'],tDone:['انجام شده','Completed'],tAssignee:['مسئول (حلقه)','Assignee (Circle)'],
+pHigh:['بالا','High'],pMed:['متوسط','Medium'],pLow:['پایین','Low'],
+fAll:['همه','All'],fToday:['امروز','Today'],fUpcoming:['آینده','Upcoming'],fDoneF:['انجام‌شده','Completed'],fOverdue:['عقب‌افتاده','Overdue'],
+sortDue:['موعد','Due date'],sortPrio:['اولویت','Priority'],sortCre:['ایجاد','Created'],
+complete:['تکمیل','Complete'],reopen:['بازگشایی','Reopen'],
+noDue:['بدون موعد','No due date'],
+tasksEmpty:['کاری برای نمایش نیست.','No tasks to show.'],
+reminderNote:['توجه: علی یادآوری پس‌زمینه یا اعلان ارسال نمی‌کند؛ موعدها فقط در برنامه نمایش داده می‌شوند.','Note: ALI does not send background reminders or notifications; due dates are shown inside the app only.'],
+notesH:['یادداشت‌ها','Notes'],newNote:['یادداشت جدید','New note'],editNote:['ویرایش یادداشت','Edit note'],nBody:['متن یادداشت','Note text'],notesEmpty:['هنوز یادداشتی ندارید.','No notes yet.'],
+filesH:['فایل‌ها','Files'],filesAdd:['افزودن فایل','Add files'],filesHelp:['فایل‌ها فقط در مرورگر شما ذخیره می‌شوند (حداکثر ۱۰ مگابایت برای هر فایل) و در پشتیبان JSON گنجانده نمی‌شوند.','Files are stored only in this browser (max 10 MB each) and are NOT included in the JSON backup.'],filesEmpty:['فایلی ذخیره نشده است.','No files stored.'],download:['دانلود','Download'],errFileBig:['فایل بزرگ‌تر از ۱۰ مگابایت است:','File larger than 10 MB:'],
+learnH:['یادگیری','Learning'],cardsH:['فلش‌کارت‌ها (تکرار فاصله‌دار)','Flashcards (spaced repetition)'],newCard:['کارت جدید','New card'],editCard:['ویرایش کارت','Edit card'],cFront:['پرسش (روی کارت)','Question (front)'],cBack:['پاسخ (پشت کارت)','Answer (back)'],
+showAns:['نمایش پاسخ','Show answer'],again:['دوباره','Again'],good:['درست بود','Got it'],dueCards:['کارت برای مرور:','Cards due:'],noDue2:['امروز کارتی برای مرور نیست.','No cards due today.'],totalCards:['مجموع کارت‌ها:','Total cards:'],learnGuides:['راهنماهای یادگیری','Learning guides'],cardsEmpty:['کارتی ندارید.','No cards yet.'],box:['جعبه','Box'],
+circleH:['حلقه من','My Circle'],circleHelp:['فهرستی محلی از اعضای خانواده، دوستان یا همکاران. این اطلاعات همگام‌سازی نمی‌شود و فقط روی همین دستگاه می‌ماند؛ برای اشتراک‌گذاری از پشتیبان JSON استفاده کنید.','A local list of family, friends or teammates. It is NOT synced and stays on this device; use JSON export to share.'],
+newMember:['عضو جدید','New member'],editMember:['ویرایش عضو','Edit member'],mName:['نام','Name'],mRole:['نقش / ارتباط','Role / relation'],mNote:['یادداشت','Note'],circleEmpty:['هنوز عضوی اضافه نشده است.','No members yet.'],assigned:['کارهای باز:','Open tasks:'],
+assistH:['دستیار دانش محلی','Local knowledge assistant'],assistNote:['این یک دستیار جستجوی کلیدواژه‌ای محلی است، نه یک مدل زبانی. فقط از داده‌های همین دستگاه پاسخ می‌دهد و هیچ چیزی ارسال نمی‌کند.','This is a local keyword-search assistant, NOT a language model. It answers only from data on this device and sends nothing anywhere.'],
+askPlaceholder:['پرسش خود را بنویسید…','Ask a question…'],ask:['پرسیدن','Ask'],
+ansFound:['بر اساس رکوردهای محلی زیر، مرتبط‌ترین راهنما:','Based on the local records below, the most relevant guide is:'],ansNone:['در داده‌های محلی چیزی مرتبط پیدا نشد. می‌توانید با کلمات دیگر بپرسید یا یک رکورد دانش جدید بسازید.','Nothing relevant was found in local data. Try different words or add a new knowledge record.'],
+supporting:['رکوردهای پشتیبان','Supporting records'],relNotes:['یادداشت‌های مرتبط','Related notes'],relTasks:['کارهای مرتبط','Related tasks'],suggested:['راهنماهای پیشنهادی','Suggested guides'],
+chatEmpty:['پرسشی بپرسید؛ مثلاً «چطور گذرواژه قوی بسازم؟»','Ask something, e.g. "how do I plan my week?"'],
+searchResults:['نتایج','Results'],noResults:['نتیجه‌ای پیدا نشد.','No results found.'],
+setH:['تنظیمات','Settings'],sProfile:['پروفایل محلی','Local profile'],sName:['نام شما','Your name'],sLang:['زبان','Language'],sTheme:['پوسته','Theme'],dark:['تیره','Dark'],light:['روشن','Light'],
+sStorage:['ذخیره‌سازی','Storage'],sPersist:['درخواست ذخیره‌سازی پایدار','Request persistent storage'],persistYes:['ذخیره‌سازی پایدار فعال است.','Persistent storage granted.'],persistNo:['مرورگر درخواست را نپذیرفت.','The browser did not grant persistence.'],persistNA:['این مرورگر ذخیره‌سازی پایدار را پشتیبانی نمی‌کند.','This browser does not support persistent storage.'],
+usage:['مصرف تقریبی:','Approx. usage:'],
+sBackup:['پشتیبان‌گیری و بازیابی','Backup & restore'],exportBackup:['دریافت پشتیبان کامل','Download full backup'],restoreBackup:['بازیابی از پشتیبان','Restore from backup'],backupHelp:['پشتیبان شامل دانش، کارها، یادداشت‌ها، فلش‌کارت‌ها، حلقه و تنظیمات است؛ فایل‌ها را شامل نمی‌شود.','Backup includes knowledge, tasks, notes, flashcards, circle and settings; it does not include stored files.'],
+restoreAsk:['بازیابی همه داده‌های فعلی را جایگزین می‌کند. ادامه می‌دهید؟','Restoring REPLACES all current data. Continue?'],restored:['بازیابی انجام شد.','Restore complete.'],errBackup:['فایل پشتیبان معتبر نیست.','Not a valid ALI backup file.'],
+sPrivacy:['داده‌های شخصی','Personal data'],deleteAll:['حذف همه داده‌های من','Delete all my data'],deleteAllQ:['همه دانش، کارها، یادداشت‌ها، فایل‌ها، کارت‌ها و تنظیمات پاک می‌شود و بازگشت‌پذیر نیست. ابتدا پشتیبان بگیرید. ادامه می‌دهید؟','This erases ALL knowledge, tasks, notes, files, cards and settings and cannot be undone. Export a backup first. Continue?'],deletedAll:['همه داده‌ها حذف شدند.','All data deleted.'],
+encNote:['هشدار: داده‌ها در مرورگر شما رمزگذاری نشده‌اند. هر کسی که به این مرورگر/نمایه دسترسی داشته باشد می‌تواند آن‌ها را بخواند. اطلاعات بسیار حساس (گذرواژه، شماره کارت) را اینجا ذخیره نکنید.','Warning: data is NOT encrypted in your browser. Anyone with access to this browser profile can read it. Do not store highly sensitive data (passwords, card numbers) here.'],
+sExt:['هوش مصنوعی خارجی','External AI'],extHelp:['اتصال به مدل خارجی فقط از طریق یک سرور امن (backend) ممکن است و هرگز کلید API نباید داخل این فایل گذاشته شود. چون سروری پیکربندی نشده، این بخش غیرفعال است و هیچ پاسخی ساخته‌شده توسط مدل خارجی نمایش داده نمی‌شود.','An external model can only be connected through a secure server-side backend; an API key must never be placed in this file. No backend is configured, so this is disabled and no external-model output is ever shown.'],
+sPwa:['نصب به‌صورت PWA','PWA installation'],pwaHelp:['یک فایل HTML تنها نمی‌تواند PWA کامل باشد. برای نصب باید فایل‌های manifest.json و sw.js کنار ALI.html روی HTTPS (یا localhost) میزبانی شوند؛ Service Worker روی file:// ثبت نمی‌شود. نمونه فایل‌ها را دانلود کنید.','A lone HTML file cannot be a full PWA. Host manifest.json and sw.js next to ALI.html over HTTPS (or localhost); service workers do not register on file://. Download the sample files below.'],dlManifest:['دانلود manifest.json','Download manifest.json'],dlSw:['دانلود sw.js','Download sw.js'],
+sAbout:['درباره','About'],aboutText:['نسخه برنامه','App version'],
+errNoIdb:['IndexedDB در دسترس نیست یا باز نشد. برنامه با حافظه موقت اجرا می‌شود و با بستن صفحه همه چیز از بین می‌رود. راه‌حل: مرورگر را به‌روز کنید، پنجره غیرخصوصی را ببندید، یا فایل را از یک سرور محلی/HTTPS باز کنید.','IndexedDB is unavailable or failed to open. ALI is running in temporary memory and ALL data is lost when this page closes. Fixes: update the browser, leave private mode, or open the file from a local server/HTTPS.'],
+loading:['در حال بارگذاری…','Loading…'],
+langSwitch:['English','فارسی'],themeSwitch:['تغییر پوسته','Toggle theme'],
+okMsg:['انجام شد.','Done.'],
+calPrev:['ماه قبل','Previous month'],calNext:['ماه بعد','Next month'],
+seeAll:['مشاهده همه','See all'],
+makeCard:['ساخت فلش‌کارت','Make flashcard'],
+openGuide:['بازکردن راهنما','Open guide']
+};
+var S={lang:'fa',theme:'dark',name:'',view:'home',kb:[],tasks:[],notes:[],files:[],cards:[],circle:[],
+ kbf:{q:'',cat:'all',lang:'all',sort:'updated',fav:false},tf:{filter:'all',sort:'due',q:''},nq:'',chat:[],cal:new Date(),shown:false,ready:false};
+function t(k){var e=T[k];return e?e[S.lang==='fa'?0:1]:k;}
+function catLabel(id){var c=CATS.filter(function(x){return x.id===id;})[0];return c?c[S.lang]:id;}
+
+/* ---------- DOM helpers (safe: text only) ---------- */
+function $(s,r){return (r||document).querySelector(s);}
+function h(tag,attrs){
+  var e=document.createElement(tag),k,v,i;
+  attrs=attrs||{};
+  for(k in attrs){v=attrs[k];if(v==null||v===false)continue;
+    if(k==='class')e.className=v;
+    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);
+    else if(k==='value'||k==='checked'||k==='disabled'||k==='selected')e[k]=v;
+    else e.setAttribute(k,v===true?'':String(v));}
+  for(i=2;i<arguments.length;i++)append(e,arguments[i]);
+  return e;
+}
+function append(e,c){
+  if(c==null||c===false)return;
+  if(Array.isArray(c)){c.forEach(function(x){append(e,x);});return;}
+  e.appendChild(typeof c==='object'?c:document.createTextNode(String(c)));
+}
+var ICONS={home:'M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10',bot:'M12 3v3M6 8h12a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7a2 2 0 012-2zM9 13h.01M15 13h.01M9 17h6',
+kb:'M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19V5M8 7h7',tasks:'M4 4h16v16H4zM8 12l3 3 5-6',notes:'M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h5',
+files:'M4 6a2 2 0 012-2h4l2 3h6a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2z',learning:'M2 9l10-5 10 5-10 5zM6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5',
+circle:'M9 11a3 3 0 100-6 3 3 0 000 6zM3 20v-1a5 5 0 015-5h2a5 5 0 015 5v1M17 11a3 3 0 100-6M21 20v-1a4 4 0 00-3-3.8',
+settings:'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12l2-1-2-3-2 1a7 7 0 00-2-1l-.5-2h-3l-.5 2a7 7 0 00-2 1l-2-1-2 3 2 1v2l-2 1 2 3 2-1a7 7 0 002 1l.5 2h3l.5-2a7 7 0 002-1l2 1 2-3-2-1z',
+search:'M11 18a7 7 0 100-14 7 7 0 000 14zM21 21l-5-5',plus:'M12 5v14M5 12h14',star:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z',
+trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',edit:'M4 20h4L19 9l-4-4L4 16zM13 7l4 4',download:'M12 4v11M7 10l5 5 5-5M5 20h14',upload:'M12 20V9M7 14l5-5 5 5M5 4h14',
+x:'M6 6l12 12M18 6L6 18',sun:'M12 16a4 4 0 100-8 4 4 0 000 8zM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5',
+moon:'M20 14A8 8 0 1110 4a7 7 0 0010 10z',globe:'M12 21a9 9 0 100-18 9 9 0 000 18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18',
+db:'M4 6c0-1.5 3.6-3 8-3s8 1.5 8 3-3.6 3-8 3-8-1.5-8-3zM4 6v12c0 1.5 3.6 3 8 3s8-1.5 8-3V6M4 12c0 1.5 3.6 3 8 3s8-1.5 8-3',
+send:'M3 11l18-8-8 18-2-8z',chev:'M9 6l6 6-6 6'};
+function icon(n,cls){var s=document.createElement('span');s.style.display='inline-flex';
+  s.innerHTML='<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24" aria-hidden="true"><path d="'+(ICONS[n]||'')+'"/></svg>';return s;} /* static trusted strings only */
+function uid(){try{if(crypto&&crypto.randomUUID)return crypto.randomUUID();}catch(e){}return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
+function nowIso(){return new Date().toISOString();}
+function pad2(n){return n<10?'0'+n:''+n;}
+function ymd(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function today(){return ymd(new Date());}
+function addDays(s,n){var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+n);return ymd(d);}
+function validYmd(s){return typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!isNaN(new Date(s+'T00:00:00').getTime());}
+function locale(){return S.lang==='fa'?'fa-IR-u-ca-gregory':'en-US';}
+function fmtDT(iso){try{return new Intl.DateTimeFormat(locale(),{dateStyle:'medium',timeStyle:'short'}).format(new Date(iso));}catch(e){return iso;}}
+function fmtD(s){try{var p=s.split('-');return new Intl.DateTimeFormat(locale(),{dateStyle:'medium'}).format(new Date(+p[0],+p[1]-1,+p[2]));}catch(e){return s;}}
+function hasFa(s){return /[\u0600-\u06FF]/.test(s);}
+function download(name,content,mime){
+  var blob=content instanceof Blob?content:new Blob([content],{type:mime||'application/octet-stream'});
+  var u=URL.createObjectURL(blob),a=h('a',{href:u,download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);
+}
+function toast(msg,type){var box=$('#toasts');var el=h('div',{class:'toast '+(type||'ok'),role:type==='err'?'alert':'status'},msg);box.appendChild(el);setTimeout(function(){el.remove();},type==='err'?8000:3500);}
+
+/* ---------- Modal / confirm ---------- */
+function openModal(title,body,actions){
+  return new Promise(function(resolve){
+    var prev=document.activeElement,ov;
+    function close(v){ov.remove();document.removeEventListener('keydown',onKey);try{prev&&prev.focus&&prev.focus();}catch(e){}resolve(v);}
+    function onKey(e){if(e.key==='Escape'&&ov===document.body.lastElementChild)close(null);}
+    var foot=null;
+    if(actions&&actions.length){foot=h('div',{class:'mfoot'},actions.map(function(a){
+      return h('button',{class:'btn '+(a.cls||''),type:'button',onclick:function(){
+        if(a.run){Promise.resolve(a.run()).then(function(r){if(r!==false)close(a.value);});}else close(a.value);}},a.label);}));}
+    ov=h('div',{class:'overlay',onclick:function(e){if(e.target===ov)close(null);}},
+      h('div',{class:'modal',role:'dialog','aria-modal':'true','aria-label':title},
+        h('div',{class:'mhead'},h('h2',{},title),h('button',{class:'icon-btn',type:'button','aria-label':t('close'),onclick:function(){close(null);}},icon('x'))),
+        h('div',{class:'mbody'},body),foot));
+    document.body.appendChild(ov);document.addEventListener('keydown',onKey);
+    var f=ov.querySelector('input:not([type=checkbox]),textarea,select')||ov.querySelector('.mfoot .pri')||ov.querySelector('button');if(f)f.focus();
+  });
+}
+function confirmDlg(msg,label,danger){return openModal(t('confirm'),h('p',{},msg),[{label:t('cancel'),value:false},{label:label||t('confirm'),value:true,cls:danger?'dan':'pri'}]).then(function(v){return v===true;});}
+var fidc=0;
+function field(label,input,extra){var id='f'+(++fidc);input.id=id;return h('div',{class:'field'+(extra?' '+extra:'')},h('label',{for:id},label),input);}
+function inlineField(label,input){var id='f'+(++fidc);input.id=id;return h('div',{class:'field inline'},input,h('label',{for:id},label));}
+function sel(opts,val){var s=h('select');opts.forEach(function(o){var op=h('option',{value:o[0]},o[1]);if(o[0]===val)op.selected=true;s.appendChild(op);});s.value=val;return s;}
+function errBox(){return h('div',{class:'banner',role:'alert',style:'display:none;margin-bottom:10px'});}
+function showErr(box,msg){box.textContent=msg;box.style.display='block';}
+
+/* ==========================================================================
+   DatabaseManager — IndexedDB with honest memory fallback
+   ========================================================================== */
+var DB={db:null,mem:false,err:'',stores:['kb','tasks','notes','files','cards','circle','meta'],memData:{},
+ open:function(){
+  var self=this;
+  return new Promise(function(res){
+    function fail(e){self.mem=true;self.err=(e&&e.message)||String(e||'');self.stores.forEach(function(s){self.memData[s]={};});res(false);}
+    try{
+      if(!window.indexedDB)throw new Error('indexedDB not available');
+      var r=indexedDB.open('ali-db',1);
+      r.onupgradeneeded=function(){var d=r.result;self.stores.forEach(function(s){if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:s==='meta'?'key':'id'});});};
+      r.onsuccess=function(){self.db=r.result;self.db.onversionchange=function(){self.db.close();};res(true);};
+      r.onerror=function(){fail(r.error);};r.onblocked=function(){fail(new Error('blocked'));};
+    }catch(e){fail(e);}
+  });
+ },
+ tx:function(store,mode,fn){
+  var self=this;
+  return new Promise(function(resolve,reject){
+    try{
+      var tx=self.db.transaction(store,mode),out;
+      tx.oncomplete=function(){resolve(out&&out.result!==undefined?out.result:undefined);};
+      tx.onerror=function(){reject(tx.error||new Error('tx error'));};
+      tx.onabort=function(){reject(tx.error||new Error('tx aborted'));};
+      out=fn(tx.objectStore(store));
+    }catch(e){reject(e);}
+  });
+ },
+ getAll:function(s){if(this.mem)return Promise.resolve(Object.keys(this.memData[s]).map(function(k){return DB.memData[s][k];}));return this.tx(s,'readonly',function(o){return o.getAll();}).then(function(r){return r||[];});},
+ get:function(s,k){if(this.mem)return Promise.resolve(this.memData[s][k]);return this.tx(s,'readonly',function(o){return o.get(k);});},
+ put:function(s,v){if(this.mem){this.memData[s][v[s==='meta'?'key':'id']]=v;return Promise.resolve();}return this.tx(s,'readwrite',function(o){return o.put(v);});},
+ putMany:function(s,arr){if(this.mem){var self=this;arr.forEach(function(v){self.memData[s][v[s==='meta'?'key':'id']]=v;});return Promise.resolve();}return this.tx(s,'readwrite',function(o){arr.forEach(function(v){o.put(v);});});},
+ del:function(s,k){if(this.mem){delete this.memData[s][k];return Promise.resolve();}return this.tx(s,'readwrite',function(o){return o.delete(k);});},
+ clear:function(s){if(this.mem){this.memData[s]={};return Promise.resolve();}return this.tx(s,'readwrite',function(o){return o.clear();});}
+};
+
+/* ==========================================================================
+   SearchEngine — normalisation, tokenising, scoring (works for fa + en)
+   ========================================================================== */
+var SearchEngine=(function(){
+  var STOP={the:1,a:1,an:1,of:1,to:1,and:1,or:1,is:1,are:1,how:1,what:1,do:1,i:1,my:1,in:1,on:1,for:1,with:1,can:1,should:1,me:1,از:1,به:1,در:1,و:1,را:1,که:1,این:1,با:1,برای:1,چه:1,چگونه:1,چطور:1,است:1,من:1,آیا:1,چطوری:1,کنم:1,باید:1};
+  function norm(s){
+    return String(s||'').toLowerCase().replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/\u200c/g,' ')
+      .replace(/[۰-۹]/g,function(c){return String(c.charCodeAt(0)-1776);}).replace(/[٠-٩]/g,function(c){return String(c.charCodeAt(0)-1632);});
+  }
+  function tok(s){return norm(s).split(/[^\p{L}\p{N}]+/u).filter(Boolean);}
+  function stem(w){
+    if(/[\u0600-\u06FF]/.test(w)&&w.length>4){w=w.replace(/(ها|های|ان|ات)$/,'');if(w.length>3)w=w.replace(/ی$/,'');}
+    else if(w.length>4)w=w.replace(/(ing|es|s|ed)$/,'');
+    return w;
+  }
+  function qTokens(q){var all=tok(q),keep=all.filter(function(w){return !STOP[w];});return (keep.length?keep:all).map(stem).filter(function(w){return w.length>=2;});}
+  function hit(words,q){return words.some(function(w){return w===q||w.indexOf(q)===0||(q.length>=4&&w.indexOf(q)>-1);});}
+  function rank(query,items,get){
+    var qs=qTokens(query);if(!qs.length)return [];
+    var need=Math.max(1,Math.ceil(qs.length/3)),out=[];
+    items.forEach(function(it){
+      var d=get(it),tt=tok(d.title),tg=tok(d.tags||''),bt=tok(d.body||''),score=0,m=0;
+      qs.forEach(function(q){
+        var s=0;
+        if(hit(tt,q))s+=6;if(hit(tg,q))s+=4;
+        var c=0;bt.forEach(function(w){if(w===q||w.indexOf(q)===0)c++;});if(c)s+=Math.min(c,3)*1.5;
+        if(s){m++;score+=s;}
+      });
+      if(m>=need)out.push({item:it,score:m*10+score});
+    });
+    out.sort(function(a,b){return b.score-a.score;});
+    return out;
+  }
+  return {rank:rank,norm:norm,tok:tok};
+})();
+var getKB=function(r){return {title:r.title,tags:r.tags.join(' '),body:r.content};};
+var getNote=function(n){return {title:n.title,tags:'',body:n.body};};
+var getTask=function(k){return {title:k.title,tags:'',body:k.description};};
+
+/* ==========================================================================
+   Validation / sanitising (used by forms, import, restore)
+   ========================================================================== */
+function str(v,max){return typeof v==='string'?v.slice(0,max):'';}
+function isHttpUrl(u){try{var x=new URL(u);return x.protocol==='http:'||x.protocol==='https:';}catch(e){return false;}}
+function isoOr(v,d){if(typeof v==='string'&&!isNaN(Date.parse(v)))return new Date(v).toISOString();return d;}
+function normKB(r,idx){
+  if(!r||typeof r!=='object'||Array.isArray(r))return {err:t('errRecord')+' #'+(idx+1)};
+  if(typeof r.title!=='string'||!r.title.trim()||r.title.length>300)return {err:t('errRecord')+' #'+(idx+1)+': title'};
+  if(typeof r.content!=='string'||!r.content.trim()||r.content.length>50000)return {err:t('errRecord')+' #'+(idx+1)+': content'};
+  if(typeof r.id!=='string'||!/^[\w.:\-]{1,100}$/.test(r.id))return {err:t('errRecord')+' #'+(idx+1)+': id'};
+  var tags=Array.isArray(r.tags)?r.tags.filter(function(x){return typeof x==='string'&&x.trim();}).slice(0,30).map(function(x){return x.trim().slice(0,50);}):[];
+  var url=str(r.sourceUrl,500);if(url&&!isHttpUrl(url))url='';
+  var cat=CATS.some(function(c){return c.id===r.category;})?r.category:'personal';
+  var lg=(r.language==='fa'||r.language==='en')?r.language:(hasFa(r.title)?'fa':'en');
+  var now=nowIso();
+  return {rec:{id:r.id,title:r.title.trim(),content:r.content,category:cat,tags:tags,source:str(r.source,300),sourceUrl:url,
+    createdAt:isoOr(r.createdAt,now),updatedAt:isoOr(r.updatedAt,now),language:lg,favorite:r.favorite===true,verified:r.verified===true,version:SCHEMA_VERSION}};
+}
+function validateKB(data){
+  var recs=Array.isArray(data)?data:(data&&typeof data==='object'&&data.format==='ALI-KB'&&Array.isArray(data.records)?data.records:null);
+  if(!recs)return {err:t('errStruct')};
+  if(!recs.length||recs.length>5000)return {err:t('errEmptyImport')};
+  var out=[],seen={};
+  for(var i=0;i<recs.length;i++){var n=normKB(recs[i],i);if(n.err)return {err:n.err};
+    if(seen[n.rec.id])return {err:t('errDup')+': '+n.rec.id};seen[n.rec.id]=1;out.push(n.rec);}
+  return {records:out};
+}
+function normTask(k){if(!k||typeof k!=='object'||typeof k.title!=='string'||!k.title.trim())return null;var now=nowIso();
+  return {id:(typeof k.id==='string'&&/^[\w.:\-]{1,100}$/.test(k.id))?k.id:uid(),title:k.title.trim().slice(0,300),description:str(k.description,5000),
+   priority:['high','medium','low'].indexOf(k.priority)>-1?k.priority:'medium',due:validYmd(k.due)?k.due:'',done:k.done===true,assignee:str(k.assignee,100),createdAt:isoOr(k.createdAt,now),updatedAt:isoOr(k.updatedAt,now)};}
+function normNote(n){if(!n||typeof n!=='object'||typeof n.title!=='string'||!n.title.trim())return null;var now=nowIso();
+  return {id:(typeof n.id==='string'&&/^[\w.:\-]{1,100}$/.test(n.id))?n.id:uid(),title:n.title.trim().slice(0,300),body:str(n.body,50000),createdAt:isoOr(n.createdAt,now),updatedAt:isoOr(n.updatedAt,now)};}
+function normCard(c){if(!c||typeof c!=='object'||typeof c.front!=='string'||!c.front.trim()||typeof c.back!=='string'||!c.back.trim())return null;
+  return {id:(typeof c.id==='string'&&/^[\w.:\-]{1,100}$/.test(c.id))?c.id:uid(),front:c.front.trim().slice(0,1000),back:c.back.trim().slice(0,3000),box:Math.min(5,Math.max(1,parseInt(c.box,10)||1)),due:validYmd(c.due)?c.due:today(),createdAt:isoOr(c.createdAt,nowIso())};}
+function normMember(m){if(!m||typeof m!=='object'||typeof m.name!=='string'||!m.name.trim())return null;
+  return {id:(typeof m.id==='string'&&/^[\w.:\-]{1,100}$/.test(m.id))?m.id:uid(),name:m.name.trim().slice(0,100),role:str(m.role,100),note:str(m.note,1000),createdAt:isoOr(m.createdAt,nowIso())};}
+
+/* ==========================================================================
+   Core data operations
+   ========================================================================== */
+async function loadAll(){
+  var r=await Promise.all(['kb','tasks','notes','files','cards','circle'].map(function(s){return DB.getAll(s);}));
+  S.kb=r[0];S.tasks=r[1];S.notes=r[2];S.files=r[3];S.cards=r[4];S.circle=r[5];
+}
+async function seedIfNeeded(){
+  var m=await DB.get('meta','seed')||{key:'seed',version:0,deleted:[]};
+  if(m.version>=SEED_VERSION)return;
+  var existing={};(await DB.getAll('kb')).forEach(function(r){existing[r.id]=1;});
+  var add=buildSeed().filter(function(r){return !existing[r.id]&&m.deleted.indexOf(r.id)<0;});
+  await DB.putMany('kb',add);m.version=SEED_VERSION;await DB.put('meta',m);
+}
+async function refresh(){try{await loadAll();}catch(e){toast(t('saveFail')+': '+e.message,'err');}render();}
+async function persist(store,obj,quiet){
+  try{await DB.put(store,obj);}catch(e){toast(t('saveFail')+': '+(e&&e.message||'')+' — '+t('saveFailHelp'),'err');return false;}
+  if(!quiet)toast(t('saved'));await refresh();return true;
+}
+async function removeItem(store,id){
+  try{
+    if(store==='kb'&&id.indexOf('seed-')===0){var m=await DB.get('meta','seed')||{key:'seed',version:SEED_VERSION,deleted:[]};if(m.deleted.indexOf(id)<0)m.deleted.push(id);await DB.put('meta',m);}
+    await DB.del(store,id);
+  }catch(e){toast(t('saveFail')+': '+(e&&e.message||'')+' — '+t('saveFailHelp'),'err');return false;}
+  toast(t('deleted'));await refresh();return true;
+}
+async function saveSettings(){
+  var s={key:'settings',lang:S.lang,theme:S.theme,name:S.name};
+  try{localStorage.setItem('ali-prefs',JSON.stringify({lang:S.lang,theme:S.theme}));}catch(e){}
+  try{await DB.put('meta',s);return true;}catch(e){toast(t('saveFail')+': '+e.message,'err');return false;}
+}
+
+/* ==========================================================================
+   Import / export
+   ========================================================================== */
+function exportKB(){
+  var payload={format:'ALI-KB',schemaVersion:SCHEMA_VERSION,seedVersion:SEED_VERSION,exportedAt:nowIso(),records:S.kb};
+  download('ali-knowledge-'+today()+'.json',JSON.stringify(payload,null,2),'application/json');toast(t('exported'));
+}
+async function readJsonFile(file){
+  if(file.size>MAX_IMPORT){toast(t('errBigFile'),'err');return null;}
+  var text;try{text=await file.text();}catch(e){toast(t('errRead'),'err');return null;}
+  try{return JSON.parse(text);}catch(e){toast(t('errJson'),'err');return null;}
+}
+async function importKB(file){
+  var data=await readJsonFile(file);if(data==null)return;
+  var v=validateKB(data);if(v.err){toast(v.err,'err');return;}
+  var ex={};S.kb.forEach(function(r){ex[r.id]=1;});
+  var nNew=v.records.filter(function(r){return !ex[r.id];}).length,nOld=v.records.length-nNew;
+  var choice=await openModal(t('importTitle'),h('div',{},h('p',{},t('importAsk')+' '+v.records.length),h('p',{},t('importNew')+' '+nNew+' · '+t('importExisting')+' '+nOld),
+    h('p',{class:'hint'},t('mergeHelp')),h('p',{class:'hint'},t('replaceHelp'))),
+    [{label:t('cancel'),value:'cancel'},{label:t('replace'),value:'replace',cls:'dan'},{label:t('merge'),value:'merge',cls:'pri'}]);
+  if(choice!=='merge'&&choice!=='replace')return;
+  try{
+    if(choice==='merge'){
+      var add=v.records.filter(function(r){return !ex[r.id];});await DB.putMany('kb',add);
+      toast(t('importedMerge')+' '+add.length+' · '+t('skipped')+' '+nOld);
+    }else{
+      if(!await confirmDlg(t('replaceHelp'),t('replace'),true))return;
+      await DB.clear('kb');await DB.putMany('kb',v.records);
+      var ids={};v.records.forEach(function(r){ids[r.id]=1;});
+      var m=await DB.get('meta','seed')||{key:'seed',version:SEED_VERSION,deleted:[]};
+      m.deleted=buildSeed().map(function(r){return r.id;}).filter(function(id){return !ids[id];});m.version=SEED_VERSION;await DB.put('meta',m);
+      toast(t('importedReplace')+' '+v.records.length);
+    }
+  }catch(e){toast(t('saveFail')+': '+e.message+' — '+t('saveFailHelp'),'err');}
+  await refresh();
+}
+function exportBackup(){
+  var payload={format:'ALI-BACKUP',schemaVersion:SCHEMA_VERSION,exportedAt:nowIso(),settings:{lang:S.lang,theme:S.theme,name:S.name},
+    kb:S.kb,tasks:S.tasks,notes:S.notes,cards:S.cards,circle:S.circle};
+  download('ali-backup-'+today()+'.json',JSON.stringify(payload,null,2),'application/json');toast(t('exported'));
+}
+async function restoreBackup(file){
+  var d=await readJsonFile(file);if(d==null)return;
+  if(!d||d.format!=='ALI-BACKUP'||!Array.isArray(d.kb)){toast(t('errBackup'),'err');return;}
+  var kbv=validateKB({format:'ALI-KB',records:d.kb.length?d.kb:[]});
+  if(d.kb.length&&kbv.err){toast(kbv.err,'err');return;}
+  function mapOk(arr,fn){return (Array.isArray(arr)?arr.slice(0,20000):[]).map(fn).filter(Boolean);}
+  var tasks=mapOk(d.tasks,normTask),notes=mapOk(d.notes,normNote),cards=mapOk(d.cards,normCard),circle=mapOk(d.circle,normMember);
+  if(!await confirmDlg(t('restoreAsk'),t('restoreBackup'),true))return;
+  try{
+    for(var s of ['kb','tasks','notes','cards','circle'])await DB.clear(s);
+    await DB.putMany('kb',kbv.records||[]);await DB.putMany('tasks',tasks);await DB.putMany('notes',notes);await DB.putMany('cards',cards);await DB.putMany('circle',circle);
+    var have={};(kbv.records||[]).forEach(function(r){have[r.id]=1;});
+    await DB.put('meta',{key:'seed',version:SEED_VERSION,deleted:buildSeed().map(function(r){return r.id;}).filter(function(id){return !have[id];})});
+    if(d.settings&&typeof d.settings==='object'){if(d.settings.lang==='fa'||d.settings.lang==='en')S.lang=d.settings.lang;if(d.settings.theme==='dark'||d.settings.theme==='light')S.theme=d.settings.theme;S.name=str(d.settings.name,60);await saveSettings();}
+    toast(t('restored'));
+  }catch(e){toast(t('saveFail')+': '+e.message+' — '+t('saveFailHelp'),'err');}
+  await refresh();
+}
+async function deleteAll(){
+  if(!await confirmDlg(t('deleteAllQ'),t('deleteAll'),true))return;
+  try{for(var s of ['kb','tasks','notes','files','cards','circle','meta'])await DB.clear(s);
+    await DB.put('meta',{key:'seed',version:SEED_VERSION,deleted:buildSeed().map(function(r){return r.id;})});
+    try{localStorage.removeItem('ali-prefs');}catch(e){}
+    S.name='';toast(t('deletedAll'));}
+  catch(e){toast(t('saveFail')+': '+e.message,'err');}
+  await refresh();
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+function kbForm(rec){
+  var r=rec||{},box=errBox();
+  var ti=h('input',{value:r.title||'',maxlength:300}),co=h('textarea',{value:r.content||'',maxlength:50000,style:'min-height:180px'}),
+    ca=sel(CATS.map(function(c){return [c.id,c[S.lang]];}),r.category||'personal'),
+    tg=h('input',{value:(r.tags||[]).join(', '),maxlength:600}),lg=sel([['fa',t('langFa')],['en',t('langEn')]],r.language||S.lang),
+    so=h('input',{value:r.source||'',maxlength:300}),su=h('input',{value:r.sourceUrl||'',maxlength:500,type:'url',dir:'ltr'}),vf=h('input',{type:'checkbox',checked:!!r.verified});
+  var body=h('div',{},box,field(t('fTitle'),ti),field(t('fContent'),co),h('div',{class:'grid g2'},field(t('fCategory'),ca),field(t('fLang'),lg)),field(t('fTags'),tg),field(t('fSource'),so),field(t('fSourceUrl'),su),inlineField(t('fVerified'),vf));
+  return openModal(rec?t('editRecord'):t('newRecord'),body,[{label:t('cancel'),value:false},{label:t('save'),cls:'pri',value:true,run:async function(){
+    var title=ti.value.trim(),content=co.value.trim(),url=su.value.trim();
+    if(!title)return showErr(box,t('errTitle')),ti.focus(),false;
+    if(!content)return showErr(box,t('errContent')),co.focus(),false;
+    if(url&&!isHttpUrl(url))return showErr(box,t('errUrl')),su.focus(),false;
+    var tags=tg.value.split(/[,،]/).map(function(x){return x.trim().slice(0,50);}).filter(Boolean).slice(0,30);
+    var now=nowIso(),n={id:r.id||'u-'+uid(),title:title,content:content,category:ca.value,tags:tags,source:so.value.trim(),sourceUrl:url,
+      createdAt:r.createdAt||now,updatedAt:now,language:lg.value,favorite:!!r.favorite,verified:vf.checked,version:SCHEMA_VERSION};
+    return await persist('kb',n);
+  }}]);
+}
+function taskForm(task,pre){
+  var k=task||{},box=errBox();
+  var ti=h('input',{value:k.title||'',maxlength:300}),de=h('textarea',{value:k.description||'',maxlength:5000}),
+    pr=sel([['high',t('pHigh')],['medium',t('pMed')],['low',t('pLow')]],k.priority||'medium'),du=h('input',{type:'date',value:k.due||(pre&&pre.due)||'',dir:'ltr'}),
+    asg=sel([['',t('none')]].concat(S.circle.map(function(m){return [m.id,m.name];})),k.assignee||''),dn=h('input',{type:'checkbox',checked:!!k.done});
+  var body=h('div',{},box,field(t('fTitle'),ti),field(t('tDesc'),de),h('div',{class:'grid g2'},field(t('tPriority'),pr),field(t('tDue'),du)),field(t('tAssignee'),asg),inlineField(t('tDone'),dn),h('p',{class:'hint'},t('reminderNote')));
+  return openModal(task?t('editTask'):t('newTask'),body,[{label:t('cancel'),value:false},{label:t('save'),cls:'pri',value:true,run:async function(){
+    var title=ti.value.trim();if(!title)return showErr(box,t('errTitle')),ti.focus(),false;
+    if(du.value&&!validYmd(du.value))return showErr(box,t('errDate')),false;
+    var now=nowIso();
+    return await persist('tasks',{id:k.id||uid(),title:title,description:de.value.trim(),priority:pr.value,due:du.value,done:dn.checked,assignee:asg.value,createdAt:k.createdAt||now,updatedAt:now});
+  }}]);
+}
+function noteForm(note,pre){
+  var n=note||{},box=errBox();
+  var ti=h('input',{value:n.title||(pre&&pre.title)||'',maxlength:300}),bo=h('textarea',{value:n.body||(pre&&pre.body)||'',maxlength:50000,style:'min-height:200px'});
+  return openModal(note?t('editNote'):t('newNote'),h('div',{},box,field(t('fTitle'),ti),field(t('nBody'),bo)),[{label:t('cancel'),value:false},{label:t('save'),cls:'pri',value:true,run:async function(){
+    var title=ti.value.trim();if(!title)return showErr(box,t('errTitle')),ti.focus(),false;var now=nowIso();
+    return await persist('notes',{id:n.id||uid(),title:title,body:bo.value,createdAt:n.createdAt||now,updatedAt:now});
+  }}]);
+}
+function cardForm(card,pre){
+  var c=card||{},box=errBox();
+  var fr=h('textarea',{value:c.front||(pre&&pre.front)||'',maxlength:1000,style:'min-height:80px'}),bk=h('textarea',{value:c.back||(pre&&pre.back)||'',maxlength:3000,style:'min-height:100px'});
+  return openModal(card?t('editCard'):t('newCard'),h('div',{},box,field(t('cFront'),fr),field(t('cBack'),bk)),[{label:t('cancel'),value:false},{label:t('save'),cls:'pri',value:true,run:async function(){
+    if(!fr.value.trim()||!bk.value.trim())return showErr(box,t('errContent')),false;
+    return await persist('cards',{id:c.id||uid(),front:fr.value.trim(),back:bk.value.trim(),box:c.box||1,due:c.due||today(),createdAt:c.createdAt||nowIso()});
+  }}]);
+}
+function memberForm(m){
+  var o=m||{},box=errBox();
+  var na=h('input',{value:o.name||'',maxlength:100}),ro=h('input',{value:o.role||'',maxlength:100}),no=h('textarea',{value:o.note||'',maxlength:1000});
+  return openModal(m?t('editMember'):t('newMember'),h('div',{},box,field(t('mName'),na),field(t('mRole'),ro),field(t('mNote'),no)),[{label:t('cancel'),value:false},{label:t('save'),cls:'pri',value:true,run:async function(){
+    if(!na.value.trim())return showErr(box,t('errTitle')),na.focus(),false;
+    return await persist('circle',{id:o.id||uid(),name:na.value.trim(),role:ro.value.trim(),note:no.value.trim(),createdAt:o.createdAt||nowIso()});
+  }}]);
+}
+function paras(text){return h('div',{class:'prose'},String(text).split(/\n+/).map(function(p){return h('p',{},p);}));}
+function kbDetail(rec){
+  var r=S.kb.filter(function(x){return x.id===rec.id;})[0]||rec;
+  var meta=h('div',{class:'row',style:'margin-bottom:8px'},h('span',{class:'badge'},catLabel(r.category)),h('span',{class:'badge'},r.language==='fa'?t('langFa'):t('langEn')),
+    h('span',{class:'badge '+(r.verified?'v':'u')},r.verified?t('verified'):t('unverified')));
+  var src=h('p',{class:'hint'},t('source')+': '+(r.source||'—')+' ');
+  if(r.sourceUrl&&isHttpUrl(r.sourceUrl))src.appendChild(h('a',{href:r.sourceUrl,target:'_blank',rel:'noopener noreferrer',dir:'ltr'},r.sourceUrl));
+  var body=h('div',{},meta,paras(r.content),h('div',{class:'tags'},r.tags.map(function(x){return h('span',{},'#'+x);})),src,
+    h('p',{class:'hint'},t('created')+': '+fmtDT(r.createdAt)+' · '+t('updated')+': '+fmtDT(r.updatedAt)));
+  return openModal(r.title,body,[
+    {label:t('makeCard'),value:'card'},{label:t('del'),cls:'dan',value:'del'},{label:t('edit'),value:'edit'},{label:t('close'),cls:'pri',value:'close'}]).then(async function(v){
+    if(v==='edit')kbForm(r);
+    else if(v==='del'){if(await confirmDlg(t('delRecordQ'),t('del'),true))removeItem('kb',r.id);}
+    else if(v==='card'){S.view='learning';render();cardForm(null,{front:r.title,back:r.content.split(/(?<=[.!؟?])\s/)[0]||r.content.slice(0,200)});}
+  });
+}
+async function toggleFav(r){await persist('kb',Object.assign({},r,{favorite:!r.favorite,updatedAt:nowIso()}),true);}
+
+/* ==========================================================================
+   LocalAssistant
+   ========================================================================== */
+function answer(q){
+  var kbs=SearchEngine.rank(q,S.kb,getKB).sort(function(a,b){
+    var la=a.item.language===S.lang?5:0,lb=b.item.language===S.lang?5:0;return (b.score+lb)-(a.score+la);}).slice(0,3);
+  var notes=SearchEngine.rank(q,S.notes,getNote).slice(0,3),tasks=SearchEngine.rank(q,S.tasks,getTask).slice(0,3);
+  var sug=[];
+  if(kbs.length){var cat=kbs[0].item.category,ids={};kbs.forEach(function(x){ids[x.item.id]=1;});
+    sug=S.kb.filter(function(r){return r.category===cat&&!ids[r.id]&&r.language===kbs[0].item.language;}).slice(0,3);}
+  return {q:q,kb:kbs.map(function(x){return x.item;}),notes:notes.map(function(x){return x.item;}),tasks:tasks.map(function(x){return x.item;}),sug:sug};
+}
+function ask(q){q=q.trim().slice(0,500);if(!q)return;S.chat.push({role:'u',text:q});S.chat.push({role:'a',res:answer(q)});S.view='assistant';render();
+  setTimeout(function(){var c=$('.chat');if(c)c.scrollTop=c.scrollHeight;},0);}
+function linkBtn(r,label){return h('button',{class:'btn sm',type:'button',onclick:function(){kbDetail(r);}},label||r.title);}
+function renderAnswer(res){
+  var wrap=h('div',{});
+  if(!res.kb.length&&!res.notes.length&&!res.tasks.length){wrap.appendChild(h('p',{},t('ansNone')));return wrap;}
+  if(res.kb.length){var top=res.kb[0],ex=top.content.length>380?top.content.slice(0,380).replace(/\s+\S*$/,'')+'…':top.content;
+    wrap.appendChild(h('p',{},t('ansFound')));wrap.appendChild(h('p',{},h('b',{},top.title)));wrap.appendChild(h('p',{},ex));
+    wrap.appendChild(h('h3',{style:'margin-top:8px'},t('supporting')));wrap.appendChild(h('div',{class:'row'},res.kb.map(function(r){return linkBtn(r);})));}
+  if(res.notes.length){wrap.appendChild(h('h3',{style:'margin-top:10px'},t('relNotes')));wrap.appendChild(h('div',{class:'row'},res.notes.map(function(n){return h('button',{class:'btn sm',type:'button',onclick:function(){noteForm(n);}},n.title);})));}
+  if(res.tasks.length){wrap.appendChild(h('h3',{style:'margin-top:10px'},t('relTasks')));wrap.appendChild(h('div',{class:'row'},res.tasks.map(function(k){return h('button',{class:'btn sm',type:'button',onclick:function(){taskForm(k);}},k.title);})));}
+  if(res.sug.length){wrap.appendChild(h('h3',{style:'margin-top:10px'},t('suggested')));wrap.appendChild(h('div',{class:'row'},res.sug.map(function(r){return linkBtn(r);})));}
+  return wrap;
+}
+
+/* ==========================================================================
+   Task helpers
+   ========================================================================== */
+var PR={high:0,medium:1,low:2};
+function taskMatches(k,f){var td=today();
+  if(f==='today')return k.due===td;if(f==='upcoming')return !k.done&&k.due&&k.due>td;
+  if(f==='completed')return k.done;if(f==='overdue')return !k.done&&k.due&&k.due<td;return true;}
+function sortedTasks(list,mode){
+  return list.slice().sort(function(a,b){
+    if(a.done!==b.done)return a.done?1:-1;
+    if(mode==='priority'){if(PR[a.priority]!==PR[b.priority])return PR[a.priority]-PR[b.priority];}
+    if(mode==='created')return b.createdAt.localeCompare(a.createdAt);
+    var da=a.due||'9999',db=b.due||'9999';if(da!==db)return da<db?-1:1;
+    return PR[a.priority]-PR[b.priority];});
+}
+function prioBadge(p){return h('span',{class:'badge '+(p==='high'?'hi':p==='medium'?'me':'lo')},t(p==='high'?'pHigh':p==='medium'?'pMed':'pLow'));}
+function taskItem(k){
+  var as=S.circle.filter(function(m){return m.id===k.assignee;})[0];
+  return h('div',{class:'item'+(k.done?' done':'')},
+    h('div',{class:'row'},h('span',{class:'ttl grow'},k.title),prioBadge(k.priority)),
+    k.description?h('p',{},k.description):null,
+    h('div',{class:'row'},h('span',{class:'hint'},k.due?fmtD(k.due):t('noDue')),as?h('span',{class:'badge'},as.name):null,h('span',{class:'grow'}),
+      h('button',{class:'btn sm',type:'button',onclick:function(){persist('tasks',Object.assign({},k,{done:!k.done,updatedAt:nowIso()}),true);}},k.done?t('reopen'):t('complete')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('edit'),onclick:function(){taskForm(k);}},icon('edit')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delTaskQ'),t('del'),true))removeItem('tasks',k.id);}},icon('trash'))));
+}
+
+/* ==========================================================================
+   Views
+   ========================================================================== */
+var NAV=[['home','home'],['assistant','bot'],['kb','kb'],['tasks','tasks'],['notes','notes'],['files','files'],['learning','learning'],['circle','circle'],['settings','settings']];
+function go(v){S.view=v;render();window.scrollTo(0,0);}
+function dueCards(){var td=today();return S.cards.filter(function(c){return c.due<=td;}).sort(function(a,b){return a.due<b.due?-1:1;});}
+
+function viewHome(){
+  var td=today(),dueT=S.tasks.filter(function(k){return k.due===td&&!k.done;}).length,over=S.tasks.filter(function(k){return !k.done&&k.due&&k.due<td;}).length;
+  var type=sel([['question',t('qQuestion')],['note',t('qNote')],['task',t('qTask')]],'question'),inp=h('input',{placeholder:t('quickPlaceholder'),maxlength:500,'aria-label':t('quickPlaceholder')});
+  function submit(e){e.preventDefault();var v=inp.value.trim();if(!v)return;
+    if(type.value==='question')ask(v);
+    else if(type.value==='note'){persist('notes',{id:uid(),title:v.slice(0,60),body:v,createdAt:nowIso(),updatedAt:nowIso()}).then(function(){inp.value='';});}
+    else persist('tasks',{id:uid(),title:v.slice(0,300),description:'',priority:'medium',due:'',done:false,assignee:'',createdAt:nowIso(),updatedAt:nowIso()}).then(function(){inp.value='';});}
+  var kbq=h('input',{placeholder:t('kbSearch'),'aria-label':t('kbSearch')});
+  var shortcuts=[['assistant','bot','c-cy'],['kb','kb','c-bl'],['tasks','tasks','c-vi'],['notes','notes','c-mg'],['learning','learning','c-am'],['files','files','c-cy']];
+  var act=[].concat(S.notes.map(function(n){return {d:n.updatedAt,t:n.title,v:'notes',i:'notes',o:function(){noteForm(n);}};}),
+    S.tasks.map(function(k){return {d:k.updatedAt,t:k.title,v:'tasks',i:'tasks',o:function(){taskForm(k);}};}),
+    S.kb.filter(function(r){return r.id.indexOf('seed-')!==0||r.updatedAt!=='2026-10-29T00:00:00.000Z';}).map(function(r){return {d:r.updatedAt,t:r.title,v:'kb',i:'kb',o:function(){kbDetail(r);}};})).sort(function(a,b){return a.d<b.d?1:-1;}).slice(0,6);
+  return h('div',{class:'grid'},
+    h('section',{class:'panel alt'},h('h1',{style:'font-size:22px'},t('welcome')+(S.name?'، '+S.name:'')+(S.lang==='fa'?'':'')),h('p',{class:'hint'},t('welcomeSub')),
+      h('form',{class:'row',onsubmit:submit,style:'margin-top:8px'},h('div',{style:'width:130px'},type),h('div',{class:'grow'},inp),h('button',{class:'btn pri',type:'submit'},icon('send'),t('go')))),
+    h('section',{class:'panel'},h('h2',{},t('overview')),h('div',{class:'grid g4'},
+      stat(dueT,t('statToday')),stat(over,t('statOverdue')),stat(dueCards().length,t('statCards')),stat(S.kb.length,t('statKb')))),
+    h('section',{class:'panel'},h('h2',{},t('shortcuts')),h('div',{class:'grid g3'},shortcuts.map(function(s){return h('button',{class:'tile',type:'button',onclick:function(){go(s[0]);}},icon(s[1],s[2]),t(s[0]));}))),
+    h('section',{class:'panel'},h('h2',{},t('kbSearch')),h('form',{class:'row',onsubmit:function(e){e.preventDefault();S.kbf.q=kbq.value.trim();go('kb');}},h('div',{class:'grow'},kbq),h('button',{class:'btn',type:'submit'},icon('search'),t('search').replace('…','')))),
+    h('section',{class:'panel'},h('h2',{},t('recent')),act.length?h('div',{class:'list'},act.map(function(a){return h('button',{class:'tile',type:'button',onclick:a.o},icon(a.i,'c-cy'),h('span',{class:'grow'},a.t),h('span',{class:'hint'},fmtD(a.d.slice(0,10))));})):h('div',{class:'empty'},t('none'))));
+}
+function stat(n,l){return h('div',{class:'stat'},h('b',{},String(n)),h('span',{},l));}
+
+function viewAssistant(){
+  var inp=h('input',{placeholder:t('askPlaceholder'),maxlength:500,'aria-label':t('askPlaceholder')});
+  var chat=h('div',{class:'chat',role:'log','aria-live':'polite'},S.chat.length?S.chat.map(function(m){return m.role==='u'?h('div',{class:'msg u'},m.text):h('div',{class:'msg a'},renderAnswer(m.res));}):h('div',{class:'empty'},t('chatEmpty')));
+  return h('section',{class:'panel'},h('h2',{},icon('bot','c-cy'),t('assistH')),h('div',{class:'banner info',style:'margin-bottom:10px'},t('assistNote')),chat,
+    h('form',{class:'row',style:'margin-top:10px',onsubmit:function(e){e.preventDefault();var v=inp.value;inp.value='';ask(v);}},h('div',{class:'grow'},inp),h('button',{class:'btn pri',type:'submit'},icon('send'),t('ask'))));
+}
+
+function filteredKB(){
+  var f=S.kbf,list=S.kb.filter(function(r){return (f.cat==='all'||r.category===f.cat)&&(f.lang==='all'||r.language===f.lang)&&(!f.fav||r.favorite);});
+  if(f.q.trim()){var ranked=SearchEngine.rank(f.q,list,getKB);return ranked.map(function(x){return x.item;});}
+  list=list.slice();
+  list.sort(function(a,b){
+    if(f.sort==='title')return a.title.localeCompare(b.title,S.lang);
+    if(f.sort==='created')return b.createdAt.localeCompare(a.createdAt);
+    if(f.sort==='favorite'){if(a.favorite!==b.favorite)return a.favorite?-1:1;}
+    return b.updatedAt.localeCompare(a.updatedAt);});
+  return list;
+}
+function kbCard(r){
+  var snip=r.content.length>150?r.content.slice(0,150)+'…':r.content;
+  return h('article',{class:'item'},
+    h('div',{class:'row'},h('button',{class:'ttl grow',type:'button',style:'background:none;border:0;text-align:start;cursor:pointer;padding:0;font-weight:600;color:var(--tx)',onclick:function(){kbDetail(r);}},r.title),
+      h('button',{class:'icon-btn'+(r.favorite?' on':''),type:'button','aria-pressed':String(r.favorite),'aria-label':t('fav'),onclick:function(){toggleFav(r);}},icon('star'))),
+    h('p',{},snip),
+    h('div',{class:'row'},h('span',{class:'badge'},catLabel(r.category)),h('span',{class:'badge'},r.language==='fa'?t('langFa'):t('langEn')),h('span',{class:'badge '+(r.verified?'v':'u')},r.verified?t('verified'):t('unverified')),
+      h('span',{class:'grow'}),
+      h('button',{class:'btn sm',type:'button',onclick:function(){kbDetail(r);}},t('open')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('edit'),onclick:function(){kbForm(r);}},icon('edit')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delRecordQ'),t('del'),true))removeItem('kb',r.id);}},icon('trash'))));
+}
+function viewKB(){
+  var f=S.kbf,res=h('div',{class:'list'}),cnt=h('p',{class:'hint'});
+  function upd(){var l=filteredKB();cnt.textContent=l.length+' '+t('of')+' '+S.kb.length+' '+t('count');res.replaceChildren();
+    if(!l.length)res.appendChild(h('div',{class:'empty'},t('noResults')));else l.slice(0,200).forEach(function(r){res.appendChild(kbCard(r));});}
+  var q=h('input',{type:'search',value:f.q,placeholder:t('search'),'aria-label':t('search'),oninput:function(){f.q=q.value;upd();}});
+  var ca=sel([['all',t('allCats')]].concat(CATS.map(function(c){return [c.id,c[S.lang]];})),f.cat);ca.setAttribute('aria-label',t('fCategory'));ca.onchange=function(){f.cat=ca.value;upd();};
+  var lg=sel([['all',t('allLangs')],['fa',t('langFa')],['en',t('langEn')]],f.lang);lg.setAttribute('aria-label',t('fLang'));lg.onchange=function(){f.lang=lg.value;upd();};
+  var so=sel([['updated',t('sortUpdated')],['created',t('sortCreated')],['title',t('sortTitle')],['favorite',t('sortFav')]],f.sort);so.setAttribute('aria-label','Sort');so.onchange=function(){f.sort=so.value;upd();};
+  var fv=h('input',{type:'checkbox',checked:f.fav,onchange:function(){f.fav=fv.checked;upd();}});
+  var imp=h('input',{type:'file',accept:'application/json,.json',class:'sr-only',tabindex:'-1','aria-hidden':'true',onchange:function(){if(imp.files[0])importKB(imp.files[0]);imp.value='';}});
+  upd();
+  return h('section',{class:'panel'},h('h2',{},icon('kb','c-bl'),t('kb')),
+    h('div',{class:'row',style:'margin-bottom:10px'},h('button',{class:'btn pri',type:'button',onclick:function(){kbForm(null);}},icon('plus'),t('add')),
+      h('button',{class:'btn',type:'button',onclick:function(){imp.click();}},icon('upload'),t('import_')),h('button',{class:'btn',type:'button',onclick:exportKB},icon('download'),t('export_')),imp),
+    h('div',{class:'toolbar'},h('div',{class:'full'},q),ca,lg,so),
+    h('div',{class:'row',style:'margin-bottom:6px'},inlineField(t('favOnly'),fv),h('span',{class:'grow'}),cnt),res);
+}
+
+function viewTasks(){
+  var f=S.tf,res=h('div',{class:'list'}),btns=h('div',{class:'row'});
+  function upd(){var l=S.tasks.filter(function(k){return taskMatches(k,f.filter);});
+    if(f.q.trim()){var rk=SearchEngine.rank(f.q,l,getTask).map(function(x){return x.item;});l=rk;}
+    l=sortedTasks(l,f.sort);res.replaceChildren();
+    if(!l.length)res.appendChild(h('div',{class:'empty'},t('tasksEmpty')));else l.forEach(function(k){res.appendChild(taskItem(k));});
+    btns.replaceChildren();
+    [['all','fAll'],['today','fToday'],['upcoming','fUpcoming'],['overdue','fOverdue'],['completed','fDoneF']].forEach(function(x){
+      var n=S.tasks.filter(function(k){return taskMatches(k,x[0]);}).length;
+      btns.appendChild(h('button',{class:'btn sm'+(f.filter===x[0]?' pri':''),type:'button','aria-pressed':String(f.filter===x[0]),onclick:function(){f.filter=x[0];upd();}},t(x[1])+' ('+n+')'));});}
+  var q=h('input',{type:'search',value:f.q,placeholder:t('search'),'aria-label':t('search'),oninput:function(){f.q=q.value;upd();}});
+  var so=sel([['due',t('sortDue')],['priority',t('sortPrio')],['created',t('sortCre')]],f.sort);so.setAttribute('aria-label','Sort');so.onchange=function(){f.sort=so.value;upd();};
+  upd();
+  return h('section',{class:'panel'},h('h2',{},icon('tasks','c-vi'),t('tasksH')),
+    h('div',{class:'row',style:'margin-bottom:10px'},h('button',{class:'btn pri',type:'button',onclick:function(){taskForm(null);}},icon('plus'),t('newTask')),h('div',{class:'grow'},q),h('div',{style:'min-width:130px'},so)),
+    btns,h('div',{style:'height:10px'}),res,h('p',{class:'hint',style:'margin-top:10px'},t('reminderNote')));
+}
+
+function viewNotes(){
+  var res=h('div',{class:'list'});
+  function upd(){var l=S.notes.slice().sort(function(a,b){return b.updatedAt.localeCompare(a.updatedAt);});
+    if(S.nq.trim())l=SearchEngine.rank(S.nq,l,getNote).map(function(x){return x.item;});res.replaceChildren();
+    if(!l.length)res.appendChild(h('div',{class:'empty'},t('notesEmpty')));
+    else l.forEach(function(n){res.appendChild(h('div',{class:'item'},h('div',{class:'row'},h('span',{class:'ttl grow'},n.title),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('edit'),onclick:function(){noteForm(n);}},icon('edit')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delNoteQ'),t('del'),true))removeItem('notes',n.id);}},icon('trash'))),
+      h('p',{},n.body.length>200?n.body.slice(0,200)+'…':n.body),h('span',{class:'hint'},fmtDT(n.updatedAt))));});}
+  var q=h('input',{type:'search',value:S.nq,placeholder:t('search'),'aria-label':t('search'),oninput:function(){S.nq=q.value;upd();}});
+  upd();
+  return h('section',{class:'panel'},h('h2',{},icon('notes','c-mg'),t('notesH')),
+    h('div',{class:'row',style:'margin-bottom:10px'},h('button',{class:'btn pri',type:'button',onclick:function(){noteForm(null);}},icon('plus'),t('newNote')),h('div',{class:'grow'},q)),res);
+}
+
+function fmtSize(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB';}
+function viewFiles(){
+  var inp=h('input',{type:'file',multiple:true,class:'sr-only',tabindex:'-1','aria-hidden':'true',onchange:async function(){
+    var ok=0;for(var i=0;i<inp.files.length;i++){var f=inp.files[i];
+      if(f.size>MAX_FILE){toast(t('errFileBig')+' '+f.name,'err');continue;}
+      try{await DB.put('files',{id:uid(),name:f.name.slice(0,200),type:f.type||'application/octet-stream',size:f.size,createdAt:nowIso(),blob:f});ok++;}
+      catch(e){toast(t('saveFail')+': '+f.name+' — '+t('saveFailHelp'),'err');}}
+    inp.value='';if(ok)toast(t('saved'));await refresh();}});
+  var l=S.files.slice().sort(function(a,b){return b.createdAt.localeCompare(a.createdAt);});
+  return h('section',{class:'panel'},h('h2',{},icon('files','c-cy'),t('filesH')),h('p',{class:'hint'},t('filesHelp')),
+    h('div',{class:'row',style:'margin:10px 0'},h('button',{class:'btn pri',type:'button',onclick:function(){inp.click();}},icon('upload'),t('filesAdd')),inp),
+    l.length?h('div',{class:'list'},l.map(function(f){return h('div',{class:'item'},h('div',{class:'row'},h('span',{class:'ttl grow'},f.name),h('span',{class:'hint'},fmtSize(f.size)),
+      h('button',{class:'btn sm',type:'button',onclick:function(){download(f.name,f.blob);}},icon('download'),t('download')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delFileQ'),t('del'),true))removeItem('files',f.id);}},icon('trash'))),
+      h('span',{class:'hint'},fmtDT(f.createdAt)));})):h('div',{class:'empty'},t('filesEmpty')));
+}
+
+var INTERVALS=[0,1,2,4,8,16];
+function viewLearning(){
+  var due=dueCards(),cur=due[0],rev;
+  if(cur){
+    rev=h('div',{class:'panel alt'},h('p',{class:'hint'},t('dueCards')+' '+due.length),
+      h('div',{class:'fc'},h('div',{},cur.front),S.shown?h('div',{class:'c-cy',style:'font-size:16px'},cur.back):null),
+      S.shown?h('div',{class:'row',style:'justify-content:center'},
+        h('button',{class:'btn dan',type:'button',onclick:function(){grade(cur,false);}},t('again')),h('button',{class:'btn pri',type:'button',onclick:function(){grade(cur,true);}},t('good')))
+        :h('div',{class:'row',style:'justify-content:center'},h('button',{class:'btn pri',type:'button',onclick:function(){S.shown=true;render();}},t('showAns'))));
+  }else rev=h('div',{class:'empty'},t('noDue2'));
+  var guides=S.kb.filter(function(r){return r.category==='learning'&&r.language===S.lang;}).slice(0,8);
+  return h('div',{class:'grid'},
+    h('section',{class:'panel'},h('h2',{},icon('learning','c-am'),t('cardsH')),
+      h('div',{class:'row',style:'margin-bottom:10px'},h('button',{class:'btn pri',type:'button',onclick:function(){cardForm(null);}},icon('plus'),t('newCard')),h('span',{class:'hint'},t('totalCards')+' '+S.cards.length)),rev),
+    h('section',{class:'panel'},h('h3',{},t('cardsH')+' — '+t('totalCards')+' '+S.cards.length),
+      S.cards.length?h('div',{class:'list'},S.cards.slice().sort(function(a,b){return a.due<b.due?-1:1;}).map(function(c){return h('div',{class:'item'},h('div',{class:'row'},h('span',{class:'ttl grow'},c.front),h('span',{class:'badge'},t('box')+' '+c.box),h('span',{class:'hint'},fmtD(c.due)),
+        h('button',{class:'icon-btn',type:'button','aria-label':t('edit'),onclick:function(){cardForm(c);}},icon('edit')),
+        h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delCardQ'),t('del'),true))removeItem('cards',c.id);}},icon('trash'))));})):h('div',{class:'empty'},t('cardsEmpty'))),
+    h('section',{class:'panel'},h('h3',{},t('learnGuides')),h('div',{class:'row'},guides.map(function(r){return linkBtn(r);}))));
+}
+async function grade(c,ok){
+  var box=ok?Math.min(5,c.box+1):1,due=addDays(today(),ok?INTERVALS[box]:1);S.shown=false;
+  await persist('cards',Object.assign({},c,{box:box,due:due}),true);
+}
+
+function viewCircle(){
+  return h('section',{class:'panel'},h('h2',{},icon('circle','c-mg'),t('circleH')),h('p',{class:'hint'},t('circleHelp')),
+    h('div',{class:'row',style:'margin:10px 0'},h('button',{class:'btn pri',type:'button',onclick:function(){memberForm(null);}},icon('plus'),t('newMember'))),
+    S.circle.length?h('div',{class:'list'},S.circle.map(function(m){var n=S.tasks.filter(function(k){return k.assignee===m.id&&!k.done;}).length;
+      return h('div',{class:'item'},h('div',{class:'row'},h('span',{class:'ttl grow'},m.name),m.role?h('span',{class:'badge'},m.role):null,
+        h('button',{class:'icon-btn',type:'button','aria-label':t('edit'),onclick:function(){memberForm(m);}},icon('edit')),
+        h('button',{class:'icon-btn',type:'button','aria-label':t('del'),onclick:async function(){if(await confirmDlg(t('delMemberQ'),t('del'),true))removeItem('circle',m.id);}},icon('trash'))),
+        m.note?h('p',{},m.note):null,h('span',{class:'hint'},t('assigned')+' '+n));})):h('div',{class:'empty'},t('circleEmpty')));
+}
+
+function pwaManifest(){return JSON.stringify({name:'ALI — Your Life, Connected',short_name:'ALI',start_url:'./ALI.html',scope:'./',display:'standalone',background_color:'#03050A',theme_color:'#03050A',lang:'fa',dir:'rtl',
+  icons:[{src:'icon-192.png',sizes:'192x192',type:'image/png'},{src:'icon-512.png',sizes:'512x512',type:'image/png'}]},null,2);}
+function pwaSw(){return "// Sample service worker for ALI (must be served over HTTPS or localhost)\nvar CACHE='ali-v1',FILES=['./ALI.html','./manifest.json'];\nself.addEventListener('install',function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(FILES);}));self.skipWaiting();});\nself.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(n){return n!==CACHE;}).map(function(n){return caches.delete(n);}));}));});\nself.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request);}));});\n";}
+
+function viewSettings(){
+  var nm=h('input',{value:S.name,maxlength:60,onchange:async function(){S.name=nm.value.trim();if(await saveSettings()){toast(t('saved'));render();}}});
+  var us=h('p',{class:'hint'},'…');
+  try{if(navigator.storage&&navigator.storage.estimate)navigator.storage.estimate().then(function(e){us.textContent=t('usage')+' '+fmtSize(e.usage||0)+(e.quota?' / '+fmtSize(e.quota):'');});else us.textContent='';}catch(e){us.textContent='';}
+  var rest=h('input',{type:'file',accept:'application/json,.json',class:'sr-only',tabindex:'-1','aria-hidden':'true',onchange:function(){if(rest.files[0])restoreBackup(rest.files[0]);rest.value='';}});
+  var imp=h('input',{type:'file',accept:'application/json,.json',class:'sr-only',tabindex:'-1','aria-hidden':'true',onchange:function(){if(imp.files[0])importKB(imp.files[0]);imp.value='';}});
+  return h('div',{class:'grid'},
+    h('section',{class:'panel'},h('h2',{},icon('settings','c-cy'),t('sProfile')),field(t('sName'),nm),
+      h('div',{class:'row'},h('button',{class:'btn',type:'button',onclick:toggleLang},icon('globe'),t('langSwitch')),h('button',{class:'btn',type:'button',onclick:toggleTheme},icon(S.theme==='dark'?'sun':'moon'),t('themeSwitch')+': '+(S.theme==='dark'?t('dark'):t('light'))))),
+    h('section',{class:'panel'},h('h2',{},icon('db','c-bl'),t('sStorage')),
+      h('p',{},DB.mem?h('span',{class:'c-am'},t('storageBad')):t('storageOk')),us,
+      h('button',{class:'btn',type:'button',onclick:async function(){try{if(navigator.storage&&navigator.storage.persist){toast(await navigator.storage.persist()?t('persistYes'):t('persistNo'),'info');}else toast(t('persistNA'),'info');}catch(e){toast(t('persistNA'),'info');}}},t('sPersist')),
+      h('div',{class:'banner info',style:'margin-top:10px'},t('encNote'))),
+    h('section',{class:'panel'},h('h2',{},t('sBackup')),h('p',{class:'hint'},t('backupHelp')),
+      h('div',{class:'row'},h('button',{class:'btn pri',type:'button',onclick:exportBackup},icon('download'),t('exportBackup')),h('button',{class:'btn',type:'button',onclick:function(){rest.click();}},icon('upload'),t('restoreBackup')),
+        h('button',{class:'btn',type:'button',onclick:exportKB},icon('download'),t('export_')+' (KB)'),h('button',{class:'btn',type:'button',onclick:function(){imp.click();}},icon('upload'),t('import_')+' (KB)'),rest,imp)),
+    h('section',{class:'panel'},h('h2',{},t('sPrivacy')),h('button',{class:'btn dan',type:'button',onclick:deleteAll},icon('trash'),t('deleteAll'))),
+    h('section',{class:'panel'},h('h2',{},t('sExt')),h('p',{},h('span',{class:'dot off'}),' ',t('extOffLong')),h('p',{class:'hint'},t('extHelp'))),
+    h('section',{class:'panel'},h('h2',{},t('sPwa')),h('p',{class:'hint'},t('pwaHelp')),
+      h('div',{class:'row'},h('button',{class:'btn',type:'button',onclick:function(){download('manifest.json',pwaManifest(),'application/json');}},icon('download'),t('dlManifest')),h('button',{class:'btn',type:'button',onclick:function(){download('sw.js',pwaSw(),'text/javascript');}},icon('download'),t('dlSw')))),
+    h('section',{class:'panel'},h('h2',{},t('sAbout')),h('p',{class:'hint'},'ALI — '+t('aboutText')+' '+APP_VERSION+' · schema '+SCHEMA_VERSION+' · seed '+SEED_VERSION)));
+}
+
+/* ---------- calendar & side panel ---------- */
+function calendar(){
+  var c=S.cal,y=c.getFullYear(),m=c.getMonth(),first=new Date(y,m,1),start=S.lang==='fa'?6:0,off=(first.getDay()-start+7)%7,td=today();
+  var withDue={};S.tasks.forEach(function(k){if(k.due&&!k.done)withDue[k.due]=1;});
+  var ttl;try{ttl=new Intl.DateTimeFormat(locale(),{month:'long',year:'numeric'}).format(first);}catch(e){ttl=y+'-'+(m+1);}
+  var head=h('tr',{}),i;
+  for(i=0;i<7;i++){var dd=new Date(2024,0,7+((start+i)%7));var lab;try{lab=new Intl.DateTimeFormat(locale(),{weekday:'narrow'}).format(dd);}catch(e){lab='';}head.appendChild(h('th',{},lab));}
+  var body=h('tbody'),d=new Date(y,m,1-off);
+  for(var w=0;w<6;w++){var tr=h('tr');for(i=0;i<7;i++){(function(dt){var s=ymd(dt);
+    tr.appendChild(h('td',{},h('button',{type:'button',class:(s===td?'today ':'')+(withDue[s]?'has ':'')+(dt.getMonth()!==m?'out':''),'aria-label':fmtD(s),onclick:function(){taskForm(null,{due:s});}},String(dt.getDate()))));})(new Date(d));d.setDate(d.getDate()+1);}
+    body.appendChild(tr);}
+  return h('div',{},h('div',{class:'row',style:'justify-content:space-between;margin-bottom:6px'},
+    h('button',{class:'icon-btn',type:'button','aria-label':t('calPrev'),onclick:function(){S.cal=new Date(y,m-1,1);render();}},icon('chev',S.lang==='fa'?'':'')),
+    h('b',{},ttl),h('button',{class:'icon-btn',type:'button','aria-label':t('calNext'),onclick:function(){S.cal=new Date(y,m+1,1);render();}},icon('chev'))),
+    h('table',{class:'cal',role:'grid'},h('thead',{},head),body));
+}
+function sidePanel(){
+  var td=today(),tl=S.tasks.filter(function(k){return k.due===td&&!k.done;}).slice(0,5),rn=S.notes.slice().sort(function(a,b){return b.updatedAt.localeCompare(a.updatedAt);}).slice(0,4);
+  return h('aside',{class:'right'},
+    h('section',{class:'panel'},h('h3',{},t('calendar')),calendar()),
+    h('section',{class:'panel'},h('h3',{},t('todayTasks')),tl.length?h('div',{class:'list'},tl.map(function(k){return h('button',{class:'tile',type:'button',onclick:function(){taskForm(k);}},prioBadge(k.priority),h('span',{class:'grow'},k.title));})):h('p',{class:'hint'},t('none'))),
+    h('section',{class:'panel'},h('h3',{},t('recentNotes')),rn.length?h('div',{class:'list'},rn.map(function(n){return h('button',{class:'tile',type:'button',onclick:function(){noteForm(n);}},icon('notes','c-mg'),h('span',{class:'grow'},n.title));})):h('p',{class:'hint'},t('none'))),
+    h('section',{class:'panel'},h('h3',{},t('storageStatus')),h('p',{},h('span',{class:'dot'+(DB.mem?' bad':'')}),' ',DB.mem?t('storageBad'):t('storageOk')),
+      h('h3',{style:'margin-top:10px'},t('extStatus')),h('p',{},h('span',{class:'dot off'}),' ',t('extOffLong'))));
+}
+
+/* ---------- global search ---------- */
+function globalSearch(){
+  var box=h('div',{class:'gresults',style:'display:none',role:'listbox'}),inp=h('input',{type:'search',placeholder:t('searchGlobal'),'aria-label':t('searchGlobal'),maxlength:200});
+  function close(){box.style.display='none';}
+  inp.addEventListener('input',function(){
+    var q=inp.value;box.replaceChildren();if(!q.trim()){close();return;}
+    var k=SearchEngine.rank(q,S.kb,getKB).slice(0,4),n=SearchEngine.rank(q,S.notes,getNote).slice(0,3),tk=SearchEngine.rank(q,S.tasks,getTask).slice(0,3);
+    function grp(title,arr,fn){if(!arr.length)return;box.appendChild(h('h4',{},title));arr.forEach(function(x){box.appendChild(h('button',{type:'button',onclick:function(){close();inp.value='';fn(x.item);}},x.item.title));});}
+    grp(t('kb'),k,kbDetail);grp(t('notes'),n,noteForm);grp(t('tasks'),tk,taskForm);
+    if(!k.length&&!n.length&&!tk.length)box.appendChild(h('p',{class:'hint',style:'padding:8px'},t('noResults')));
+    box.style.display='block';});
+  inp.addEventListener('keydown',function(e){if(e.key==='Escape'){close();inp.blur();}});
+  document.addEventListener('click',function hd(e){if(!inp.isConnected){document.removeEventListener('click',hd);return;}if(!box.contains(e.target)&&e.target!==inp)close();});
+  return h('div',{class:'gsearch'},inp,box);
+}
+
+/* ---------- shell ---------- */
+function toggleLang(){S.lang=S.lang==='fa'?'en':'fa';saveSettings();render();}
+function toggleTheme(){S.theme=S.theme==='dark'?'light':'dark';saveSettings();render();}
+function render(){
+  var de=document.documentElement;de.lang=S.lang;de.dir=S.lang==='fa'?'rtl':'ltr';de.setAttribute('data-theme',S.theme);document.title='ALI — '+t('tagline');
+  var app=$('#app');
+  if(!S.ready){app.replaceChildren(h('div',{style:'padding:30px;text-align:center'},t('loading')));return;}
+  var views={home:viewHome,assistant:viewAssistant,kb:viewKB,tasks:viewTasks,notes:viewNotes,files:viewFiles,learning:viewLearning,circle:viewCircle,settings:viewSettings};
+  var top=h('header',{class:'top'},
+    h('div',{class:'logo'},h('div',{class:'mark','aria-hidden':'true'},'ALI'),h('div',{},h('b',{},t('appName')+' — ALI'),h('small',{},t('desc')))),
+    globalSearch(),
+    h('div',{class:'hstat'},h('span',{class:'pill',title:DB.mem?t('errNoIdb'):t('storageOk')},h('span',{class:'dot'+(DB.mem?' bad':'')}),h('span',{class:'opt'},DB.mem?t('storageBad'):t('storageOk'))),
+      h('span',{class:'pill opt'},h('span',{class:'dot off'}),t('extOff')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('langSwitch'),title:t('langSwitch'),onclick:toggleLang},icon('globe')),
+      h('button',{class:'icon-btn',type:'button','aria-label':t('themeSwitch'),title:t('themeSwitch'),onclick:toggleTheme},icon(S.theme==='dark'?'sun':'moon')),
+      h('button',{class:'pill',type:'button',onclick:function(){go('settings');},style:'cursor:pointer'},icon('circle','c-cy'),S.name||t('localProfile'))));
+  var nav=h('nav',{class:'side','aria-label':'Main'},NAV.map(function(n){
+    var lab=S.view===n[0]?t(n[0]):t(n[0]);
+    return h('button',{type:'button','aria-current':S.view===n[0]?'page':null,onclick:function(){go(n[0]);}},icon(n[1]),h('span',{},window.innerWidth<=800&&T['navShort_'+n[0]]?t('navShort_'+n[0]):lab));}));
+  var main=h('main',{id:'main'},DB.mem?h('div',{class:'banner',role:'alert'},t('errNoIdb')):null,views[S.view]());
+  app.replaceChildren(h('div',{class:'app'},top,nav,main,sidePanel()));
+}
+window.addEventListener('resize',(function(){var last=window.innerWidth<=800;return function(){var n=window.innerWidth<=800;if(n!==last){last=n;if(S.ready&&!document.querySelector('.overlay'))render();}};})());
+
+/* ---------- boot ---------- */
+(async function boot(){
+  try{var p=JSON.parse(localStorage.getItem('ali-prefs')||'null');if(p){if(p.lang==='fa'||p.lang==='en')S.lang=p.lang;if(p.theme==='dark'||p.theme==='light')S.theme=p.theme;}}catch(e){}
+  render();
+  var ok=await DB.open();
+  try{
+    if(ok){var st=await DB.get('meta','settings');if(st){if(st.lang==='fa'||st.lang==='en')S.lang=st.lang;if(st.theme==='dark'||st.theme==='light')S.theme=st.theme;S.name=str(st.name,60);}}
+    await seedIfNeeded();await loadAll();
+  }catch(e){DB.mem=true;DB.err=e.message;if(!Object.keys(DB.memData).length)DB.stores.forEach(function(s){DB.memData[s]={};});
+    try{DB.memData.kb={};buildSeed().forEach(function(r){DB.memData.kb[r.id]=r;});S.kb=buildSeed();}catch(e2){}}
+  if(DB.mem&&!S.kb.length){buildSeed().forEach(function(r){DB.memData.kb[r.id]=r;});S.kb=buildSeed();}
+  S.ready=true;render();
+})();
+</script>
+</body>
+</html>
